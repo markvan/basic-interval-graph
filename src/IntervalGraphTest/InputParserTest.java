@@ -38,6 +38,10 @@ class InputParserTest {
 
     @Test
     void parseFile() {
+
+        Interval[] expectedIntervals = new Interval[1];
+
         Interval[] intervals = new InputParser("./input/intervals01.txt").parseFile();
+        assertEquals(expectedIntervals, intervals);
     }
 }
