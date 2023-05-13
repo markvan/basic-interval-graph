@@ -12,8 +12,6 @@ public class Interval {
         start = s;
         end = e;
     }
-
-
     @Override
     public boolean equals(Object other){
         if (this == other) return true;
@@ -21,5 +19,10 @@ public class Interval {
         Interval that = (Interval) other;
         return name.equals(that.name) && start == that.start && end == that.end;
     }
+
+    // getters
+    public String getName()  { return name; }
+    public int    getStart() { return start; }
+    public int    getEnd()    { return end; }
 
 }
