@@ -3,6 +3,8 @@ package intervalGraph;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
+
 public class AdjacencyList {
     HashMap<String, List<Interval>> adjacencyLists = new HashMap<>();
 
@@ -22,6 +24,10 @@ public class AdjacencyList {
                 }
             }
         }
+    }
+
+    public Set<String> getIntervalNames() {
+        return adjacencyLists.keySet();
     }
 
     //not crazy about this being public but need to test it

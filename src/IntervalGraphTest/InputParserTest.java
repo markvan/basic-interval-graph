@@ -16,6 +16,8 @@ import static org.hamcrest.Matchers.*;
 
 class InputParserTest {
 
+    //todo: refactor this and AdjacencyListTest.java to be DRY
+
     @org.junit.jupiter.api.BeforeEach
     void setUp() {
         try {
