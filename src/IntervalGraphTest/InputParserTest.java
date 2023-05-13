@@ -7,6 +7,8 @@ import org.junit.jupiter.api.Test;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -40,9 +42,10 @@ class InputParserTest {
 
     @Test
     void parseFile() {
-        Interval[] expectedIntervals = new Interval[1];
+        ArrayList<Interval> expectedIntervals= new ArrayList<Interval>();
+        expectedIntervals.add(new Interval("name", 1, 100));
 
-        Interval[] sutReturnValue = new InputParser("InputParserTestData.txt").parseFile();
+        ArrayList<Interval> sutReturnValue = new InputParser("InputParserTestData.txt").parseFile();
         assertThat(sutReturnValue, equalTo(expectedIntervals));
 
 

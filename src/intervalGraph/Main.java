@@ -1,5 +1,6 @@
 package intervalGraph;
-import java.io.File;
+
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
@@ -8,6 +9,6 @@ public class Main {
         System.out.println("Building a graph");
 
         // beware running from Intellij, the working directory is the project directory
-        Interval[] intervals = new InputParser("./input/intervals01.txt").parseFile();
+        List<Interval> intervals = new InputParser("./input/intervals01.txt").parseFile();
     }
 }

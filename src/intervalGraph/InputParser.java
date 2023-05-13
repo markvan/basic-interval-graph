@@ -4,6 +4,10 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import static java.lang.Integer.parseInt;
 
 public class InputParser {
     final private String fileName;
@@ -11,11 +15,11 @@ public class InputParser {
         fileName = fn;
     }
 
-    public  Interval[]  parseFile() {
+    public  ArrayList<Interval>  parseFile() {
         final int intervalName = 0;
         final int intervalStart = 1;
         final int intervalEnd = 2;
-        Interval intervals[] = null;
+        ArrayList<Interval> intervals = new ArrayList<Interval>();
 
         try
         {
@@ -26,7 +30,9 @@ public class InputParser {
             while((line = bufferedReader.readLine()) != null)
             {
                 String lineValues[] = line.split(" ");
-                System.out.println(lineValues[intervalName] + " " + lineValues[intervalStart] + " " + lineValues[intervalEnd] );
+                final int start = parseInt(lineValues[intervalStart]);
+                final int end   = parseInt(lineValues[intervalEnd]);
+                intervals.add(new Interval((lineValues[intervalName]), start, end ));
             }
             bufferedReader.close();
         }
