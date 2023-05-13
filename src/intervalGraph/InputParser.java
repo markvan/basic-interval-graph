@@ -15,23 +15,28 @@ public class InputParser {
         fileName = fn;
     }
 
+    //todo solid input checking
+    //todo sort sensitivity to blank input lines
     public  ArrayList<Interval>  parseFile() {
         final int intervalName = 0;
         final int intervalStart = 1;
         final int intervalEnd = 2;
-        ArrayList<Interval> intervals = new ArrayList<Interval>();
+        ArrayList<Interval> intervals = new ArrayList<>();
 
-        try
-        {
+        // read the input file, parse lines and add Interval instances to the list of Intervals
+        try {
             String line;
             FileReader fileReader = new FileReader(fileName);
             BufferedReader bufferedReader = new BufferedReader(fileReader);
 
             while((line = bufferedReader.readLine()) != null)
             {
+                System.out.println(line);
                 String lineValues[] = line.split(" ");
                 final int start = parseInt(lineValues[intervalStart]);
                 final int end   = parseInt(lineValues[intervalEnd]);
+                // got the data for an interval so
+                // instantiate an interval object and add iot to the list of intervals
                 intervals.add(new Interval((lineValues[intervalName]), start, end ));
             }
             bufferedReader.close();
@@ -44,8 +49,8 @@ public class InputParser {
         {
             System.out.println("Error reading file '" + fileName + "'");
         }
-        return intervals;
 
+        return intervals;
     }
 
 

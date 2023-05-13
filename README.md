@@ -40,7 +40,8 @@ like Node4j.
 
 Or we might even run, say, [Google Guava](https://github.com/google/guava/wiki/GraphsExplained)
 or [Apache Commons Gigraph](https://giraph.apache.org/) but, for the latter,
-the weekend is too short to [set up a Hadoop instance on a virtual machine and then run Gigraph on it](https://giraph.apache.org/quick_start.html)
+the weekend is too short to 
+[set up a Hadoop instance on a virtual machine and then run Gigraph on it](https://giraph.apache.org/quick_start.html)
 &mdash; next thing I'm deep in setting up Maven builds, which is doable, but is a slog  when things go wrong.
 
 The easiest would be to [Baeldung's ajacency list code](https://www.baeldung.com/java-graphs), but what's the fun in that?

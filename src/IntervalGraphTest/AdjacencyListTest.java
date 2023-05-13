@@ -13,10 +13,13 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 import static intervalGraph.AdjacencyList.*;
+import static org.hamcrest.JMock1Matchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.*;
 
 class AdjacencyListTest {
@@ -35,6 +38,8 @@ class AdjacencyListTest {
             myWriter.write("E 7 8\n");
             myWriter.write("F 9 13\n");
             myWriter.write("G 12 14\n");
+            myWriter.write("H 15 16\n");
+
             myWriter.close();
             // System.out.println("Successfully set up test data by creating 'InputParserTestData.txt'");
         } catch (IOException e) {
@@ -52,7 +57,7 @@ class AdjacencyListTest {
     }
 
     @Test
-    void rightIntervalNamesTest() {
+    void intervalNamesTest() {
         ArrayList<Interval> intervalsFromFile = new InputParser("InputParserTestData.txt").parseFile();
         AdjacencyList adjList = new AdjacencyList(intervalsFromFile);
         Set<String> intervalNames = adjList.getIntervalNames();
@@ -63,6 +68,27 @@ class AdjacencyListTest {
         }
         assertTrue(intervalNames.containsAll(names));
 
+    }
+
+    // only tests one case with a list to return, and an empty case
+    //todo improve testing
+    @Test
+    void getIntersectingIntervalsTest() {
+        ArrayList<Interval> intervalsFromFile = new InputParser("InputParserTestData.txt").parseFile();
+        AdjacencyList adjList = new AdjacencyList(intervalsFromFile);
+        try {
+            List<Interval> expectedIntervals = new ArrayList<Interval>();
+            expectedIntervals.add(new Interval("B", 2, 4));
+            expectedIntervals.add(new Interval("C", 3, 11));
+            expectedIntervals.add(new Interval("D", 5, 10));
+            assertEquals(adjList.getIntersectingIntervals("A"), expectedIntervals);
+
+            List<Interval> emptyExpectedIntervals = new ArrayList<Interval>();
+            assertEquals(adjList.getIntersectingIntervals("H"), emptyExpectedIntervals);
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Test
