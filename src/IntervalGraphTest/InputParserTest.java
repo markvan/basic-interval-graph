@@ -47,7 +47,8 @@ class InputParserTest {
         expectedIntervals.add(new Interval("B", 3, 4));
 
         ArrayList<Interval> sutReturnValue = new InputParser("InputParserTestData.txt").parseFile();
-        assertThat(sutReturnValue, equalTo(expectedIntervals));
+        //assertThat(sutReturnValue, equalTo(expectedIntervals));
+        assertEquals(sutReturnValue, expectedIntervals);
 
 
     }

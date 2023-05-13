@@ -13,4 +13,14 @@ public class Interval {
         end = e;
     }
 
+
+    @Override
+    public boolean equals(Object other){
+        System.out.println("Interval.other called");
+        if (this == other) return true;
+        if (other == null || getClass() != other.getClass()) return false;
+        Interval that = (Interval) other;
+        return name.equals(that.name) && start == that.start && end == that.end;
+    }
+
 }
