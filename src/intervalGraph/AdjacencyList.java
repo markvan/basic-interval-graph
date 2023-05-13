@@ -30,6 +30,21 @@ public class AdjacencyList {
         return adjacencyLists.keySet();
     }
 
+    // could create an Exception subclass for this but just taking a shortcut
+    public List<Interval> getIntersectingIntervals(String intervalName) throws Exception {
+        if (! getIntervalNames().contains(intervalName) ) {
+            throw new Exception("Bad interval name supplied to AdjacencyList getIntersectingIntervals");
+        }
+        //  unwilling to do anything other than supply a copy of a list of intesecting intervals
+        List<Interval> intersectingList = adjacencyLists.get(intervalName);
+        List<Interval> retList = new ArrayList<Interval>();
+        for (Interval i : intersectingList) {
+            //todo  add a duplicate method to Interval to avoid this use of getters three times in code
+            retList.add(new Interval( i.getName(), i.getStart(), i.getEnd() ));
+        }
+        return retList;
+    }
+
     //not crazy about this being public but need to test it
     static public boolean intervalsIntersect(Interval interval1, Interval interval2) {
         return ( interval1.getEnd() > interval2.getStart() && interval1.getStart() < interval2.getEnd() );
