@@ -6,14 +6,14 @@ Given a set of named of intervals construct an interval graph that may be interr
 
 1. For the entire graph, yield the set of intervals (nodes)
 2. For a given interval (node), yield all overlapping intervals (connected nodes)
-3. Bonus: For a given time period, yield the intervals in that time period 
+3. Bonus: For a given time period, yield the intervals in that time period, not implemented
 
 
 ### Input
 
 Named intervals appear in a text file one per line in the format
 
-`Name NumericStart Numeric End`
+`Name NumericStart NumericEnd`
 
 thus
 
