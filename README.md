@@ -2,10 +2,10 @@
 
 ### Introduction
 
-Given a set of named of intervals construct an interval graph that may be interrogated thus:
+The exercise: Given a set of named of intervals construct an interval graph that may be interrogated thus:
 
-1. For the entire graph, yield the set of intervals (nodes)
-2. For a given interval (node), yield all overlapping intervals (connected nodes)
+1. For the entire graph, yield the set of intervals 
+2. For a given interval, yield all overlapping intervals
 3. Bonus: For a given time period, yield the intervals in that time period, not implemented
 
 
