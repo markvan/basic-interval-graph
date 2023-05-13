@@ -67,7 +67,8 @@ Notes:
 2. Output is good, see below.
 3. Some todos, grep for them in the code. 
 4. Could do with reading code and tests, and refactoring the tests to make two files DRYer.
-5. Fairly pleased after not touching Java for five years, by the time I finished I was not needing to look up syntax for the code I was writing.
+5. Not that pleased that my test package is under directory 'src' and not under directory 'test'
+6. Fairly pleased after not touching Java for five years, by the time I finished I was not needing to look up syntax for the code I was writing.
 
 ### Output
 
