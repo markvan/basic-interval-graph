@@ -23,7 +23,7 @@ class InputParserTest {
             myWriter.write("A 1 2\n");
             myWriter.write("B 3 4\n");
             myWriter.close();
-            System.out.println("Successfully set up test data by creating 'InputParserTestData.txt'");
+            // System.out.println("Successfully set up test data by creating 'InputParserTestData.txt'");
         } catch (IOException e) {
             System.out.println("IOException thrown trying to set up 'InputParserTestData.txt'");
             e.printStackTrace();
@@ -34,7 +34,7 @@ class InputParserTest {
     void tearDown() {
         File file = new File("InputParserTestData.txt");
         if (file.delete()) {
-            System.out.println("Successfully tore down test data by deleting 'InputParserTestData.txt'");
+            // System.out.println("Successfully tore down test data by deleting 'InputParserTestData.txt'");
         } else {
             System.out.println("Failed to delete InputParserTestData.txt.");
         }
@@ -47,8 +47,8 @@ class InputParserTest {
         expectedIntervals.add(new Interval("B", 3, 4));
 
         ArrayList<Interval> sutReturnValue = new InputParser("InputParserTestData.txt").parseFile();
-        //assertThat(sutReturnValue, equalTo(expectedIntervals));
         assertEquals(sutReturnValue, expectedIntervals);
+        // better style with hamcrest
 
 
     }
