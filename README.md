@@ -58,3 +58,64 @@ at Baeldung, just to make this a harder exercise.
 
 Requires Hamcrest jar to be installed on the class path in order
 to compile (at least some of) the tests.
+
+### Notes on 'finishing for now' aka current state of play
+
+Notes:
+
+1. used the [wikipedia example](https://en.wikipedia.org/wiki/Interval_graph) augmented with non-intersecting interval 'H'.
+2. Output is good, see below.
+3. Some todos, grep for them in the code. 
+4. Could do with reading code and tests, and refactoring the tests to make two files DRYer.
+5. Fairly pleased after not touching Java for five years, by the time I finished I was not needing to look up syntax for the code I was writing.
+
+### Output
+
+```
+Parsing the interval data
+A 1 6
+B 2 4
+C 3 11
+D 5 10
+E 7 8
+F 9 13
+G 12 14
+H 15 16
+Building the interval graph
+Listing intersecting intervals for each interval
+Intersecting intervals for interval A
+interval [B, 2, 4]
+interval [C, 3, 11]
+interval [D, 5, 10]
+Intersecting intervals for interval B
+interval [A, 1, 6]
+interval [C, 3, 11]
+Intersecting intervals for interval C
+interval [A, 1, 6]
+interval [B, 2, 4]
+interval [D, 5, 10]
+interval [E, 7, 8]
+interval [F, 9, 13]
+Intersecting intervals for interval D
+interval [A, 1, 6]
+interval [C, 3, 11]
+interval [E, 7, 8]
+interval [F, 9, 13]
+Intersecting intervals for interval E
+interval [C, 3, 11]
+interval [D, 5, 10]
+Intersecting intervals for interval F
+interval [C, 3, 11]
+interval [D, 5, 10]
+interval [G, 12, 14]
+Intersecting intervals for interval G
+interval [F, 9, 13]
+Intersecting intervals for interval H
+no intersecting intervals
+
+Process finished with exit code 0
+```
+
+
+
+
