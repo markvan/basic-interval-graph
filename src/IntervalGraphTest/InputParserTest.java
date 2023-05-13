@@ -9,6 +9,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
 
 class InputParserTest {
 
@@ -19,9 +21,9 @@ class InputParserTest {
             myWriter.write("A 1 2\n");
             myWriter.write("B 3 4\n");
             myWriter.close();
-            System.out.println("Successfully wrote to InputParserTestData.txt");
+            System.out.println("Successfully set up test data by creating 'InputParserTestData.txt'");
         } catch (IOException e) {
-            System.out.println("IOException thrown trying to write to InputParserTestData.txt");
+            System.out.println("IOException thrown trying to set up 'InputParserTestData.txt'");
             e.printStackTrace();
         }
     }
@@ -30,7 +32,7 @@ class InputParserTest {
     void tearDown() {
         File file = new File("InputParserTestData.txt");
         if (file.delete()) {
-            System.out.println("Deleted the file: " + file.getName());
+            System.out.println("Successfully tore down test data by deleting 'InputParserTestData.txt'");
         } else {
             System.out.println("Failed to delete InputParserTestData.txt.");
         }
@@ -38,10 +40,11 @@ class InputParserTest {
 
     @Test
     void parseFile() {
-
         Interval[] expectedIntervals = new Interval[1];
 
-        Interval[] intervals = new InputParser("./input/intervals01.txt").parseFile();
-        assertEquals(expectedIntervals, intervals);
+        Interval[] sutReturnValue = new InputParser("InputParserTestData.txt").parseFile();
+        assertThat(sutReturnValue, equalTo(expectedIntervals));
+
+
     }
 }
