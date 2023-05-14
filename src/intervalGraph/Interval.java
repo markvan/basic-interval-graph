@@ -1,6 +1,6 @@
 package intervalGraph;
 
-// class to contain an interval used for input from file
+// class for interval objects
 
 public class Interval {
     final String name;
@@ -12,12 +12,23 @@ public class Interval {
         start = s;
         end = e;
     }
+
+    public Interval(Interval i) {
+        name = i.getName();
+        start = i.getStart();
+        end = i.getEnd();
+    }
+
+    // this override of Object.equals is needed to get hamcrest equality comparisons to work
     @Override
-    public boolean equals(Object other){
-        if (this == other) return true;
-        if (other == null || getClass() != other.getClass()) return false;
-        Interval that = (Interval) other;
-        return name.equals(that.name) && start == that.start && end == that.end;
+    public boolean equals(Object otherObject) {
+        // check if the two objects are the same object
+        if (this == otherObject) return true;
+        // check arguyment is an object, and that the classes of it and this don't differ
+        if (otherObject == null || getClass() != otherObject.getClass()) return false;
+        // type coersion to use getters in the next statement
+        Interval otherInterval = (Interval) otherObject;
+        return name.equals(otherInterval.name) && start == otherInterval.start && end == otherInterval.end;
     }
 
     // getters

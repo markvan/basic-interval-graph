@@ -5,9 +5,10 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 import static java.lang.Integer.parseInt;
+
+// input file parser, returns a list of intervals
 
 public class InputParser {
     final private String fileName;
@@ -16,7 +17,7 @@ public class InputParser {
     }
 
     //todo solid input checking
-    //todo sort sensitivity to blank input lines
+    //todo sort sensitivity to blank input lines, eg on end of file
     public  ArrayList<Interval>  parseFile() {
         final int intervalName = 0;
         final int intervalStart = 1;
@@ -50,6 +51,7 @@ public class InputParser {
             System.out.println("Error reading file '" + fileName + "'");
         }
 
+        // return the intervals in the file
         return intervals;
     }
 

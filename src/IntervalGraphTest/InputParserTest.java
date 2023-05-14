@@ -2,22 +2,22 @@ package IntervalGraphTest;
 
 import intervalGraph.InputParser;
 import intervalGraph.Interval;
-import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
-
+import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
 class InputParserTest {
 
-    //todo: refactor this and AdjacencyListTest.java to be DRY
+    //todo refactor this and AdjacencyListTest.java to be DRY
 
+    // make a two interval input file
     @org.junit.jupiter.api.BeforeEach
     void setUp() {
         try {
@@ -32,6 +32,7 @@ class InputParserTest {
         }
     }
 
+    // delete the input file
     @org.junit.jupiter.api.AfterEach
     void tearDown() {
         File file = new File("InputParserTestData.txt");
@@ -40,32 +41,35 @@ class InputParserTest {
         }
     }
 
+    // I'm just experimenting with asserti
     @Test
     void parseFile() {
-        ArrayList<Interval> expectedIntervals= new ArrayList<>();  // had a warning with explicit type in initialisation
+        // make list of expected intervals
+        ArrayList<Interval> expectedIntervals= new ArrayList<>();
         expectedIntervals.add(new Interval("A", 1, 2));
         expectedIntervals.add(new Interval("B", 3, 4));
 
-        ArrayList<Interval> sutReturnValue = new InputParser("InputParserTestData.txt").parseFile();
+        // parse file with SUT
+        ArrayList<Interval> sutReturedIntervals = new InputParser("InputParserTestData.txt").parseFile();
 
         // test for SUT correctness
 
-        // illustrative test without hamcrest
-        assertEquals(sutReturnValue, expectedIntervals);
-        // better style with hamcrest
-        assertThat(sutReturnValue, is(equalTo(expectedIntervals)));   // fails with not
+        // illustrative test without hamcrest that SUT has parsed the file correctly
+        assertEquals(sutReturedIntervals, expectedIntervals);
+        // same test but better style with hamcrest
+        assertThat(sutReturedIntervals, is(equalTo(expectedIntervals)));   // fails with not
 
-        //test several cases that should not match SUT
+        //test several cases where 'expected' should not match SUT's parsing of file
 
         //unequal length lists, same initial Intervals in expected, fails without not
-        assertThat(sutReturnValue, is(not(equalTo(expectedIntervals.add(new Interval("extra interval", 3, 4))))));   // fails with not
+        assertThat(sutReturedIntervals, is(not(equalTo(expectedIntervals.add(new Interval("extra interval", 3, 4))))));   // fails with not
         //another unequal length test, empty list expected, fails without not
-        assertThat(sutReturnValue, is(not(equalTo(new ArrayList<Interval>() ))));
+        assertThat(sutReturedIntervals, is(not(equalTo(new ArrayList<Interval>() ))));
         //test if fails same length but different interval
         ArrayList<Interval> expectedIntervalsWithDiffNode= new ArrayList<>();
         expectedIntervalsWithDiffNode.add(new Interval("A", 1, 2));
         expectedIntervalsWithDiffNode.add(new Interval("B", 3, 6)); // this node has different end value
-        assertThat(sutReturnValue, is(not(equalTo(expectedIntervalsWithDiffNode))));   // fails without not
+        assertThat(sutReturedIntervals, is(not(equalTo(expectedIntervalsWithDiffNode))));   // fails without not
 
     }
 }

@@ -1,17 +1,25 @@
 package IntervalGraphTest;
 
 import intervalGraph.Interval;
-import org.junit.jupiter.api.Test;
 
-import static java.util.function.Predicate.isEqual;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
-import static org.junit.jupiter.api.Assertions.*;
 
 class IntervalTest {
 
+    // check Interval instantiation is correct when duplicating
+    @Test
+    void checkDuplicateInstantiation() {
+        Interval a = new Interval("name1", 1, 2);
+        // check that the 'duplication' constructor works
+        assertEquals(a, new Interval(a));
+    }
+
+    // check that override of Object.equals in Interval is working correctly
     @Test
     void testEquals() {
         Interval a = new Interval("name1", 1, 2);
@@ -21,7 +29,7 @@ class IntervalTest {
         Interval notEqA3 = new Interval("name1", 1, 3);
         //assertThat(a, equalTo(eqA));
         assertEquals(a,eqA);
-        // this fails correctly assertNotEquals(a, eqA);
+        // check not equal
         assertNotEquals(a, notEqA1);
         assertNotEquals(a, notEqA2);
         assertNotEquals(a, notEqA3);
