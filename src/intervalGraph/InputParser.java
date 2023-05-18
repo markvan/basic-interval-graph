@@ -17,6 +17,7 @@ public class InputParser {
     }
 
     //todo solid input checking
+    //todo ensure no duplicate interval names
     //todo sort sensitivity to blank input lines, eg on end of file
     public  ArrayList<Interval>  parseFile() {
         final int intervalName = 0;

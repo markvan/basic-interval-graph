@@ -3,6 +3,9 @@ package intervalGraph;
 import java.util.List;
 import java.util.Set;
 
+import static java.lang.System.exit;
+import static java.lang.System.in;
+
 // build an interval graph from the input file and interrogate it
 //see output statements as a quick guide to what is happening
 public class Main {
@@ -24,19 +27,26 @@ public class Main {
         }
     }
 
-    // service method for printing overlapping intervals for a given interval
-    static private void printIntervalList(String name, AdjacencyList adjList) {
+
+    /**
+     * @param intervalName
+     * @param adjList
+     */
+    static private void printIntervalList(String intervalName, AdjacencyList adjList)  {
         try { // getoverlappingIntervals will throw an exception if given a non-existent interval name
 
-            System.out.println("Overlapping intervals for interval " + name );
-
             // get and print any overlapping intervals
-            List<Interval> intervals = adjList.getOverlappingtervals(name);
+            Interval interval = adjList.getIntervalFromName(intervalName);
+            List<Interval> intervals = adjList.getOverlappingtervals(intervalName);
 
             if (intervals.size() == 0) {
-                System.out.println("  no overlapping intervals");
+                System.out.println("No overlapping intervals for interval [" + intervalName + ", "
+                        + interval.getStart() + ", " + interval.getEnd() + "]");
+
             }
             else {
+                System.out.println("Overlapping intervals for interval [" + intervalName + ", "
+                        + interval.getStart() + ", " + interval.getEnd() + "]");
                 for (Interval i : intervals) {
                     System.out.println("  interval [" + i.getName() + ", " + i.getStart() + ", " + i.getEnd() + "]");
                 }
@@ -44,7 +54,8 @@ public class Main {
 
         }
         catch (Exception e) {
-            System.out.println(e);
+            System.out.println("Main printInterval list called with non-existent interval name "+e);
+            exit(1);
         }
     }
 }
