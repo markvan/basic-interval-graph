@@ -24,6 +24,7 @@ public class AdjacencyList {
             adjacencyLists.put(interval, intersectIntervals);
             // now in that adjacency list add all the overlapping intervals
             for(Interval innerInterval : intervalList) {
+                // todo clean up this test
                 if(interval != innerInterval && intervalsOverlap(interval, innerInterval)) {
                     // making a duplicate interval here so if anyone messes with the original the
                     // AdjacencyList being instantiated is still OK
@@ -31,33 +32,47 @@ public class AdjacencyList {
                 }
             }
         }
+        int i = 1;
     }
 
-    public void addInterval(Interval interval) {
-        // create an adjacency list
+    public void addInterval(Interval newInterval) {
+        // create a copy so no one can mess with the graph
+        Interval intervalToAdd = new Interval(newInterval);
+        // get all the existing intervals
+        Set<Interval> preExistingIntervals = getIntervals();
+
+        // create an overlapping list for intervalToAdd
         List<Interval> intersectIntervals = new ArrayList<>();
-        // stick the adjacency list in the hashmap indexed by the interval name
-        adjacencyLists.put(interval, intersectIntervals);
+        // stick the adjacency list in the hashmap, indexed by the interval
+        adjacencyLists.put(intervalToAdd, intersectIntervals);
         // get all the intervals including the interval being added
-        Set<Interval> intervalList = getIntervals();
 
         // now in that adjacency list add all the overlapping intervals
-        for(Interval innerInterval : intervalList) {
-            if(interval != innerInterval && intervalsOverlap(interval, innerInterval)) {
+        for(Interval preExistingIntvl : preExistingIntervals) {
+            if( (!(preExistingIntvl.equals(newInterval))) && intervalsOverlap(newInterval, preExistingIntvl)) {
+                System.out.println("preExistingIntvl [" + preExistingIntvl.getName() + " " + preExistingIntvl.getStart() + " " +preExistingIntvl.getEnd() +"]     " +
+
+                        "newInterval [" + newInterval.getName() + " " + newInterval.getStart() + " " +newInterval.getEnd() +"]     ");
                 // making a duplicate interval here so if anyone messes with the original the
                 // AdjacencyList being instantiated is still OK
-                intersectIntervals.add(new Interval(innerInterval));
+                intersectIntervals.add(new Interval(preExistingIntvl));
+                // add overlapping new interval to preexisting interval's overlapping intervals list
+                adjacencyLists.get(preExistingIntvl).add(new Interval(newInterval));
             }
         }
+
+        // add
     }
 
     /**
-     * getIntervalNames - get the names of the intervals in the interval graph
+     * getIntervalNames - get the names of the intervals in the interval graph<br>
+     * because a TreeSet is used for strings names are returned in lexicographic order
      *
      * @return a Set&lt;String&gt; set of interval names, sorted
      */
-    public Set<String> getIntervalNames() {
-        Set<String> retSet = new TreeSet<>();
+
+    public TreeSet<String> getIntervalNames() {
+        TreeSet<String> retSet = new TreeSet<>();
         (adjacencyLists.keySet()).forEach((i) -> retSet.add(i.getName()));
         return retSet;
     }
@@ -123,5 +138,14 @@ public class AdjacencyList {
             }
         }
         return null;
+    }
+
+    private void sort() {
+
+    }
+
+    boolean consistent () {
+        return true;
+
     }
 }

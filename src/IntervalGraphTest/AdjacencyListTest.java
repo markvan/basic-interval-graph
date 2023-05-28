@@ -9,10 +9,7 @@ import org.junit.jupiter.api.Test;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import static IntervalGraph.AdjacencyList.*;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -22,9 +19,9 @@ import static org.junit.jupiter.api.Assertions.*;
 class AdjacencyListTest {
 
     //handy list of intervals from the parsed file, set during setup
-    private ArrayList<Interval> intervalsFromFile;
+    static ArrayList<Interval> intervalsFromFile;
     // SUT, created during setup
-    private AdjacencyList adjList;
+    static AdjacencyList adjList;
 
     // create a file containing the input the tests need
     @org.junit.jupiter.api.BeforeEach
@@ -69,7 +66,7 @@ class AdjacencyListTest {
     void getIntervalNamesTest() {
 
         // get the expected interval names from SUT
-        Set<String> intervalNames = adjList.getIntervalNames();
+        TreeSet<String> intervalNames = adjList.getIntervalNames();
 
         // check we have the right number of names
         //todo - maybe - to make this stricter count the number of lines in the input file
@@ -94,7 +91,7 @@ class AdjacencyListTest {
         ArrayList<Interval> retList = new ArrayList<>();
 
         for (String name : intervalNames) {
-            for (Interval intvl : intervalsFromFile) {
+            for (Interval intvl : adjList.getIntervals()) {
                 if ( name.equals(intvl.getName())) {
                     retList.add(intvl);
                 }
@@ -134,6 +131,12 @@ class AdjacencyListTest {
         }
     }
 
+    @Test
+    void aTest () {
+        adjList.getIntervalNames();
+        int i=1;
+    }
+
 
     // test all intervals to see if they overlap appropriately
     @Test
@@ -154,7 +157,7 @@ class AdjacencyListTest {
         }
     }
 
-    // test that a new interval can be added successfully
+    // test that a new interval non-overlapping interval can be added successfully
     @Test
     void addNonOverlappingIntervalTest () {
         // create a non-overlapping interval and add it
@@ -169,15 +172,39 @@ class AdjacencyListTest {
             overlapAppropriate("E", "C", "D");
             overlapAppropriate("F", "C", "D", "G");
             overlapAppropriate("G", "F");
-            overlapAppropriate("H" );
+            overlapAppropriate("H");
             overlapAppropriate("X");
 
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-
-
     }
+
+
+        // test that a new interval non-overlapping interval can be added successfully
+        @Test
+        void addOverlappingIntervalTest () {
+            // create a non-overlapping interval and add it
+            Interval nonOverlapInterval = new Interval("Y", 3, 4);
+            adjList.addInterval(nonOverlapInterval);
+            try {
+                // first arg is the interval being considered, remaining args are the only overlapping intervals
+                overlapAppropriate("A", "B", "C", "D", "Y");
+                overlapAppropriate("B", "A", "C", "Y");
+                overlapAppropriate("C", "A", "B", "D", "E", "F", "Y");
+                overlapAppropriate("D", "A", "C", "E", "F");
+                overlapAppropriate("E", "C", "D");
+                overlapAppropriate("F", "C", "D", "G");
+                overlapAppropriate("G", "F");
+                overlapAppropriate("H" );
+                overlapAppropriate("Y", "A", "B", "C");
+
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+            int i = 1;
+
+        }
 
     @Test
     void intervalsIntersectTest() {

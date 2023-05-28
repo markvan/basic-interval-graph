@@ -1,7 +1,7 @@
 package IntervalGraph;
 
 import java.util.List;
-import java.util.Set;
+import java.util.TreeSet;
 
 import static java.lang.System.exit;
 
@@ -20,7 +20,7 @@ public class Main {
         AdjacencyList intervalGraph = new AdjacencyList(intervals);
 
         System.out.println("Listing overlapping intervals for each interval");
-        Set<String> intervalNames = intervalGraph.getIntervalNames();
+        TreeSet<String> intervalNames = intervalGraph.getIntervalNames();
         for (String name : intervalNames) {
             printIntervalList(name, intervalGraph);
         }
