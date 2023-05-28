@@ -20,8 +20,7 @@ public class AdjacencyList {
         for(Interval interval : intervalList) {
             // create an adjacency list
             List<Interval> intersectIntervals = new ArrayList<>();
-            // stick the adjacency list in the hashmap indexed buy the interval name
-            //todo - consider if we want the key to be the complete interval triple rather than the name, some advantages
+            // stick the adjacency list in the hashmap indexed by the interval itself
             adjacencyLists.put(interval, intersectIntervals);
             // now in that adjacency list add all the overlapping intervals
             for(Interval innerInterval : intervalList) {
@@ -30,6 +29,24 @@ public class AdjacencyList {
                     // AdjacencyList being instantiated is still OK
                     intersectIntervals.add(new Interval(innerInterval));
                 }
+            }
+        }
+    }
+
+    public void addInterval(Interval interval) {
+        // create an adjacency list
+        List<Interval> intersectIntervals = new ArrayList<>();
+        // stick the adjacency list in the hashmap indexed by the interval name
+        adjacencyLists.put(interval, intersectIntervals);
+        // get all the intervals including the interval being added
+        Set<Interval> intervalList = getIntervals();
+
+        // now in that adjacency list add all the overlapping intervals
+        for(Interval innerInterval : intervalList) {
+            if(interval != innerInterval && intervalsOverlap(interval, innerInterval)) {
+                // making a duplicate interval here so if anyone messes with the original the
+                // AdjacencyList being instantiated is still OK
+                intersectIntervals.add(new Interval(innerInterval));
             }
         }
     }

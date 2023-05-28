@@ -121,9 +121,9 @@ class AdjacencyListTest {
     // check the first arg only appears in overlapping lists for the remaining args,
     // and not in the overlapping lists for the first arn and the unmentioned args
     private void overlapAppropriate (String testIntervalName, String... overlappingIntervalNames) throws Exception {
-        // ...
+        // get the intervals we expect will overlap the test interval
         List<Interval> expectedIntervals = selectIntervals(overlappingIntervalNames);
-        //check the actual list from the SUT is the same as the expected list
+        //check the actual list from the SUT is the same as the expected intervals
         assertEquals(adjList.getOverlappingIntervals(testIntervalName), expectedIntervals);
         //check testIntervalName is not in the lists for any interval that is not in the overlappingIntervalNames
         // includes it should not be in its own list
@@ -156,8 +156,8 @@ class AdjacencyListTest {
 
     // test that a new interval can be added successfully
     @Test
-    void addIntervalTest () {
-        /*/ create a non-overlapping interval and add it
+    void addNonOverlappingIntervalTest () {
+        // create a non-overlapping interval and add it
         Interval nonOverlapInterval = new Interval("X", 100, 101);
         adjList.addInterval(nonOverlapInterval);
         try {
@@ -170,10 +170,11 @@ class AdjacencyListTest {
             overlapAppropriate("F", "C", "D", "G");
             overlapAppropriate("G", "F");
             overlapAppropriate("H" );
+            overlapAppropriate("X");
 
         } catch (Exception e) {
             throw new RuntimeException(e);
-        } */
+        }
 
 
     }
