@@ -16,19 +16,20 @@ public class AdjacencyList {
      * @param intervalList  a list of intervals forming the interval graph - List&lt;Interval&gt;
      */
     public AdjacencyList(List<Interval> intervalList) {
-        // make one adjacency lists for each interval in the Hashmap adjacencyLists
-        for(Interval interval : intervalList) {
-            // create an adjacency list
-            List<Interval> intersectIntervals = new ArrayList<>();
-            // stick the adjacency list in the hashmap indexed by the interval itself
-            adjacencyLists.put(interval, intersectIntervals);
-            // now in that adjacency list add all the overlapping intervals
-            for(Interval innerInterval : intervalList) {
-                // todo clean up this test
-                if(interval != innerInterval && intervalsOverlap(interval, innerInterval)) {
-                    // making a duplicate interval here so if anyone messes with the original the
-                    // AdjacencyList being instantiated is still OK
-                    intersectIntervals.add(new Interval(innerInterval));
+        if (intervalList != null) {// make one adjacency lists for each interval in the Hashmap adjacencyLists
+            for(Interval interval : intervalList) {
+                // create an adjacency list
+                List<Interval> intersectIntervals = new ArrayList<>();
+                // stick the adjacency list in the hashmap indexed by the interval itself
+                adjacencyLists.put(interval, intersectIntervals);
+                // now in that adjacency list add all the overlapping intervals
+                for (Interval innerInterval : intervalList) {
+                    // todo clean up this test
+                    if (interval != innerInterval && intervalsOverlap(interval, innerInterval)) {
+                        // making a duplicate interval here so if anyone messes with the original the
+                        // AdjacencyList being instantiated is still OK
+                        intersectIntervals.add(new Interval(innerInterval));
+                    }
                 }
             }
         }

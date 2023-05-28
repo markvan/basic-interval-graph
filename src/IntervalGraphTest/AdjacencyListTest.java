@@ -206,6 +206,19 @@ class AdjacencyListTest {
 
         }
 
+        @Test
+        void addIntervalsStartingWithEmptyGraphTest () {
+
+            try {
+                AdjacencyList adjcyList = new AdjacencyList(null);
+                adjcyList.addInterval(new Interval("A", 3, 10));
+                overlapAppropriate("A");
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+
+        }
+
     @Test
     void intervalsIntersectTest() {
         // non overlapping
@@ -241,9 +254,5 @@ class AdjacencyListTest {
         i2 = new Interval("A", 1, 5);
         assertFalse(intervalsOverlap(i1, i2));
         assertFalse(intervalsOverlap(i2, i1));
-
-
-
-
     }
 }
