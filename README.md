@@ -61,7 +61,11 @@ to compile (at least some of) the tests.
 
 ### Notes on 'finishing for now' aka current state of play
 
+
+
 Notes:
+
+![Example interval graph](imagesForDoc/wikipediaIntervalGraphExample.png)
 
 1. used the [wikipedia example](https://en.wikipedia.org/wiki/Interval_graph) augmented with non-intersecting interval 'H'.
 2. Output is good, see below.
