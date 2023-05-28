@@ -1,6 +1,6 @@
 package IntervalGraphTest;
 
-import intervalGraph.Interval;
+import IntervalGraph.Interval;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;

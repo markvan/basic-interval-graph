@@ -1,4 +1,4 @@
-package intervalGraph;
+package IntervalGraph;
 
 // class for interval objects
 

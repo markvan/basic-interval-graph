@@ -1,10 +1,9 @@
-package intervalGraph;
+package IntervalGraph;
 
 import java.util.List;
 import java.util.Set;
 
 import static java.lang.System.exit;
-import static java.lang.System.in;
 
 // build an interval graph from the input file and interrogate it
 //see output statements as a quick guide to what is happening

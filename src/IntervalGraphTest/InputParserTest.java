@@ -1,7 +1,7 @@
 package IntervalGraphTest;
 
-import intervalGraph.InputParser;
-import intervalGraph.Interval;
+import IntervalGraph.InputParser;
+import IntervalGraph.Interval;
 
 import java.io.File;
 import java.io.FileWriter;

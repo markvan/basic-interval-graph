@@ -1,8 +1,8 @@
 package IntervalGraphTest;
 
-import intervalGraph.AdjacencyList;
-import intervalGraph.InputParser;
-import intervalGraph.Interval;
+import IntervalGraph.AdjacencyList;
+import IntervalGraph.InputParser;
+import IntervalGraph.Interval;
 
 import org.junit.jupiter.api.Test;
 
@@ -14,7 +14,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
-import static intervalGraph.AdjacencyList.*;
+import static IntervalGraph.AdjacencyList.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.*;
