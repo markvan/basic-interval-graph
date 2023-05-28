@@ -55,6 +55,18 @@ class AdjacencyListTest {
         }
     }
 
+    private ArrayList<Interval> selectIntervals (String... intervalNames) {
+        ArrayList<Interval> retList = new ArrayList<>();
+        for (String name : intervalNames) {
+            for (Interval intvl : intervalsFromFile) {
+                if ( name.equals(intvl.getName())) {
+                    retList.add(intvl);
+                }
+            }
+        }
+        return retList;
+    }
+
     // just delete the test input file on teardown
     @org.junit.jupiter.api.AfterEach
     void tearDown() {
@@ -73,7 +85,7 @@ class AdjacencyListTest {
 
         // check we have the right number of names
         //todo - maybe - to make this stricter count the number of lines in the input file
-        assertTrue(intervalNames.size() == intervalsFromFile.size() );
+        assertEquals(intervalNames.size(), intervalsFromFile.size());
 
         // get the expected names, note intervalsFromFile is the result from the file parser method call
         //todo - maybe - to make this stricter get the names from the the input file
@@ -95,19 +107,51 @@ class AdjacencyListTest {
     @Test
     void getOverlappingIntervalsTest() {
         try {
-            // case for interval 'A', overlapping intervals 'B', 'C' and 'D'
-            Interval intervalA = new Interval("A", 1, 6);
+            // test the case for 'leftmost' overlapping interval 'A'
+            // which overlaps intervals 'B', 'C' and 'D'
             // make the expected list containing  'B', 'C' and 'D'
-            List<Interval> expectedIntervals = new ArrayList<Interval>();
-            expectedIntervals.add(new Interval("B", 2, 4));
-            expectedIntervals.add(new Interval("C", 3, 11));
-            expectedIntervals.add(new Interval("D", 5, 10));
+            List<Interval> expectedIntervals;
+            expectedIntervals = selectIntervals("B", "C", "D");
             //check the actual list from the SUT is the same as the expected list
             assertEquals(adjList.getOverlappingtervals("A"), expectedIntervals);
+            //check A is not in the overlapping lists for 'A' (shouldn't be in own list), 'E', 'F', 'G' and 'H'
+            List<Interval> notExpectedInIntervals = selectIntervals("A", "E", "F", "G", "H");
+            for (Interval intvl : notExpectedInIntervals) {
+                assertFalse(adjList.getOverlappingtervals("A").contains(intvl) );
+            }
 
-            // case for interval 'H', no overlapping intervals
+
+            // test the case for 'middling' overlapping interval 'C'
+            // which overlaps intervals 'A', 'B', 'D', 'E' and 'F'
+            expectedIntervals = selectIntervals("A", "B", "D", "E", "F");
+            //check the actual list from the SUT is the same as the expected list
+            assertEquals(adjList.getOverlappingtervals("C"), expectedIntervals);
+            //check C is not in the overlapping lists for 'C' (shouldn't be in own list), 'G' and 'H'
+            notExpectedInIntervals = selectIntervals("C", "G", "H");
+            for (Interval intvl : notExpectedInIntervals) {
+                assertFalse(adjList.getOverlappingtervals("C").contains(intvl) );
+            }
+
+            // test the case for 'rightmost' overlapping interval 'G'
+            // which overlaps interval 'F'
+            expectedIntervals = selectIntervals("F");
+            //check the actual list from the SUT is the same as the expected list
+            assertEquals(adjList.getOverlappingtervals("G"), expectedIntervals);
+            //check G is not in the overlapping lists for 'G' (shouldn't be in own list), and 'A' to 'E'
+            notExpectedInIntervals = selectIntervals("A", "B", "C", "D", "E", "H");
+            for (Interval intvl : notExpectedInIntervals) {
+                assertFalse(adjList.getOverlappingtervals("G").contains(intvl) );
+            }
+
+
+            // test the case for interval 'H', no overlapping intervals
+            Interval IntervalH = new Interval("H", 15, 16);
             List<Interval> emptyExpectedIntervals = new ArrayList<Interval>();
-            //assertEquals(adjList.getOverlappingtervals("H"), emptyExpectedIntervals);
+            assertEquals(adjList.getOverlappingtervals("H"), emptyExpectedIntervals);
+            for(char ch = 'A'; ch <='G'; ch++ )
+            {
+                assertFalse (adjList.getOverlappingtervals(String. valueOf(ch)).contains(IntervalH));
+            }
 
         } catch (Exception e) {
             throw new RuntimeException(e);
