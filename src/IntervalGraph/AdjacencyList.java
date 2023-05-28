@@ -60,7 +60,7 @@ public class AdjacencyList {
      * @return list of Intervals that overlap the named interval
      * @throws Exception if the named interval is not found - todo create subclass of Exception for this
      */
-    public List<Interval> getOverlappingtervals(String name) throws Exception {
+    public List<Interval> getOverlappingIntervals(String name) throws Exception {
         // need care here, eg in a test or when used, may be supplied with a interval that has the same values
         // but is not at the same memory address as the 'matching' key... which probably would make various
         // list operations fail, so retrieve the matching key object first
@@ -104,7 +104,6 @@ public class AdjacencyList {
             if (intervalName.equals(i.getName())) {
                 return i;
             }
-            return null;
         }
         return null;
     }

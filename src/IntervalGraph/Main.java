@@ -36,7 +36,7 @@ public class Main {
 
             // get and print any overlapping intervals
             Interval interval = adjList.getIntervalFromName(intervalName);
-            List<Interval> intervals = adjList.getOverlappingtervals(intervalName);
+            List<Interval> intervals = adjList.getOverlappingIntervals(intervalName);
 
             if (intervals.size() == 0) {
                 System.out.println("No overlapping intervals for interval [" + intervalName + ", "
