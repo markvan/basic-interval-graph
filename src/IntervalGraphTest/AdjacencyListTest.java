@@ -21,7 +21,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class AdjacencyListTest {
 
-    //todo: refactor this and InputParserTest.java to be DRY
+    //handy list of intervals from the parsed file, set during setup
+    private ArrayList<Interval> intervalsFromFile;
+    // SUT, created during setup
+    private AdjacencyList adjList;
 
     // create a file containing the input the tests need
     @org.junit.jupiter.api.BeforeEach
@@ -42,7 +45,10 @@ class AdjacencyListTest {
 
             myWriter.close();
             // System.out.println("Successfully set up test data by creating 'InputParserTestData.txt'");
-
+            // get the list of intervals by parsing the test input file
+            intervalsFromFile = new InputParser("InputParserTestData.txt").parseFile();
+            // create the SUT
+            adjList = new AdjacencyList(intervalsFromFile);
         } catch (IOException e) {
             System.out.println("IOException thrown trying to set up 'InputParserTestData.txt'");
             e.printStackTrace();
@@ -61,13 +67,11 @@ class AdjacencyListTest {
     // test that one can retrieve all interval (aka node) names from interval graph / adjacency list
     @Test
     void getIntervalNamesTest() {
-        // create the SUT
-        ArrayList<Interval> intervalsFromFile = new InputParser("InputParserTestData.txt").parseFile();
-        AdjacencyList adjList = new AdjacencyList(intervalsFromFile);
-        // get the expected interval name from SUT
+
+        // get the expected interval names from SUT
         Set<String> intervalNames = adjList.getIntervalNames();
 
-        // check we have the right amount of names
+        // check we have the right number of names
         //todo - maybe - to make this stricter count the number of lines in the input file
         assertTrue(intervalNames.size() == intervalsFromFile.size() );
 
@@ -78,7 +82,7 @@ class AdjacencyListTest {
             names.add(i.getName());
         }
 
-        // intervalNames comes from the SUT (the adjacency list aka interval graph, names from the parser
+        // intervalNames comes from the SUT, names from the parser
         assertTrue(intervalNames.containsAll(names));
 
     }
@@ -90,9 +94,6 @@ class AdjacencyListTest {
     //todo improve testing
     @Test
     void getOverlappingIntervalsTest() {
-        // create the SUT
-        ArrayList<Interval> intervalsFromFile = new InputParser("InputParserTestData.txt").parseFile();
-        AdjacencyList adjList = new AdjacencyList(intervalsFromFile);
         try {
             // case for interval 'A', overlapping intervals 'B', 'C' and 'D'
             Interval intervalA = new Interval("A", 1, 6);
@@ -111,6 +112,16 @@ class AdjacencyListTest {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    // test that a new interval can be added successfully
+    @Test
+    void addIntervalTest () {
+        // create a non-overlapping interval and add it
+        Interval nonOverlapInterval = new Interval("X", 100, 101);
+
+        //adjList.addInterval(nonOverlapInterval);
+
     }
 
     @Test
