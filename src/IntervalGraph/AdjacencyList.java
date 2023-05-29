@@ -97,9 +97,9 @@ public class AdjacencyList {
         // need care here, eg in a test or when used, may be supplied with a interval that has the same values
         // but is not at the same memory address as the 'matching' key... which probably would make various
         // list operations fail, so retrieve the matching key object first
-        Set<Interval> intervalNames = getIntervals();
+        Set<Interval> intervals = getIntervals();
         Interval interval = null;
-        for (Interval i : intervalNames) {
+        for (Interval i : intervals) {
             if (Objects.equals(name, i.getName())) {
                 interval = i;
             }

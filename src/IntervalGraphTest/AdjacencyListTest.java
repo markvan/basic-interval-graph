@@ -114,9 +114,10 @@ class AdjacencyListTest {
     }
 
     // has assertions without being a test, now sure about that style-wise
-    // args are teh names of intervals in the interval graph
+    // args are the names of intervals in the interval graph
     // check the first arg only appears in overlapping lists for the remaining args,
-    // and not in the overlapping lists for the first arn and the unmentioned args
+    // and not in the overlapping lists for the first arg and the unmentioned args
+    //todo write test for this
     private void overlapAppropriate (String testIntervalName, String... overlappingIntervalNames) throws Exception {
         // get the intervals we expect will overlap the test interval
         List<Interval> expectedIntervals = selectIntervals(overlappingIntervalNames);
@@ -126,6 +127,7 @@ class AdjacencyListTest {
         // includes it should not be in its own list
         List<Interval> notExpectedInIntervals = rejectIntervals(overlappingIntervalNames);
         Interval testInterval = adjList.getIntervalFromName(testIntervalName);
+        notExpectedInIntervals.add(testInterval);
         for (Interval intvl : notExpectedInIntervals) {
             assertFalse(adjList.getOverlappingIntervals(intvl.getName()).contains(testInterval) );
         }
@@ -208,15 +210,13 @@ class AdjacencyListTest {
 
         @Test
         void addIntervalsStartingWithEmptyGraphTest () {
-
+            adjList = new AdjacencyList(null);
             try {
-                AdjacencyList adjcyList = new AdjacencyList(null);
-                adjcyList.addInterval(new Interval("A", 3, 10));
+                adjList.addInterval(new Interval("A", 3, 10));
                 overlapAppropriate("A");
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
-
         }
 
     @Test
