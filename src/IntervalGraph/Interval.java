@@ -3,9 +3,9 @@ package IntervalGraph;
 // class for interval objects
 
 public class Interval {
-    final String name;
-    final int start;
-    final int end;
+    final private String name;
+    final private int start;
+    final private int end;
 
     public Interval(String n, int s, int e){
         name = n;
@@ -20,15 +20,26 @@ public class Interval {
     }
 
     // this override of Object.equals is needed to get hamcrest equality comparisons to work
-    @Override
-    public boolean equals(Object otherObject) {
+    //@Override
+    public boolean equals3(Object otherObject) {
         // check if the two objects are the same object
         if (this == otherObject) return true;
-        // check arguyment is an object, and that the classes of it and this don't differ
+        // check argument is an object, and that the classes of it and this don't differ
         if (otherObject == null || getClass() != otherObject.getClass()) return false;
-        // type coersion to use getters in the next statement
+        // type coercion to use getters in the next statement
         Interval otherInterval = (Interval) otherObject;
         return name.equals(otherInterval.name) && start == otherInterval.start && end == otherInterval.end;
+    }
+
+    public boolean equals (Object otherObject) {
+        // check if the two objects are the same object, can never check null==null
+        if (this == otherObject) return true;
+        // includes check for otherObject null, null not instanceOf Interval
+        if (!(otherObject instanceof Interval)) return false;
+        Interval otherInterval = (Interval) otherObject;
+        // not going to use Apache EqualsBuilder because simple types to test
+        return name.equals(otherInterval.name) &&
+                start == otherInterval.start && end == otherInterval.end;
     }
 
     // getters

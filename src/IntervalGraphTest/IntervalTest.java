@@ -27,6 +27,11 @@ class IntervalTest {
         Interval notEqA1 = new Interval("name2", 1, 2);
         Interval notEqA2 = new Interval("name1", 0, 2);
         Interval notEqA3 = new Interval("name1", 1, 3);
+
+        //a should not be equal to null
+        assertNotEquals(a,null);
+        //a should  be equal a
+        assertEquals(a,a);
         //assertThat(a, equalTo(eqA));
         assertEquals(a,eqA);
         // check not equal
@@ -38,7 +43,5 @@ class IntervalTest {
         assertThat(a, is(not(equalTo(notEqA1))));  // fails without not
         assertThat(a, is(not(equalTo(notEqA2))));  // fails without not
         assertThat(a, is(not(equalTo(notEqA3))));  // fails without not
-
-
     }
 }

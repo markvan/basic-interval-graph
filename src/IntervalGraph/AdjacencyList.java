@@ -10,10 +10,9 @@ import java.util.*;
 
 public class AdjacencyList {
     HashMap<Interval, List<Interval>> adjacencyLists = new HashMap<>();
-
     /**
-     * constructor for an AdjacencyList, which is an implementation of an interval graph
-     * @param intervalList  a list of intervals forming the interval graph - List&lt;Interval&gt;
+     * constructor for an AdjacencyList
+     * @param intervalList  a list of intervals forming the interval graph, may be null
      */
     public AdjacencyList(List<Interval> intervalList) {
         if (intervalList != null) {// make one adjacency lists for each interval in the Hashmap adjacencyLists
