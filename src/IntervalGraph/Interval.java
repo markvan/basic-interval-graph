@@ -20,17 +20,6 @@ public class Interval {
     }
 
     // this override of Object.equals is needed to get hamcrest equality comparisons to work
-    //@Override
-    public boolean equals3(Object otherObject) {
-        // check if the two objects are the same object
-        if (this == otherObject) return true;
-        // check argument is an object, and that the classes of it and this don't differ
-        if (otherObject == null || getClass() != otherObject.getClass()) return false;
-        // type coercion to use getters in the next statement
-        Interval otherInterval = (Interval) otherObject;
-        return name.equals(otherInterval.name) && start == otherInterval.start && end == otherInterval.end;
-    }
-
     public boolean equals (Object otherObject) {
         // check if the two objects are the same object, can never check null==null
         if (this == otherObject) return true;
