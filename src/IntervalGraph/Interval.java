@@ -5,7 +5,7 @@ import  org.apache.commons.lang3.builder.HashCodeBuilder;
 
 // class for interval objects
 
-public class Interval {
+public class Interval implements Comparable<Interval> {
     final private String name;
     final private int start;
     final private int end;
@@ -46,6 +46,12 @@ public class Interval {
                 append(end).
                 toHashCode();
     }
+
+    @Override
+    public int compareTo(Interval otherInterval) {
+        return name.compareTo(otherInterval.name);
+    }
+
 
 
     // getters
