@@ -34,14 +34,31 @@ class IntervalTest {
         assertEquals(a,a);
         //assertThat(a, equalTo(eqA));
         assertEquals(a,eqA);
+        //symmetry
+        assertEquals(eqA,a);
+        //transitivity
+        Interval eqeqA = new Interval(eqA);
+        assertEquals(eqA, eqeqA);
+        assertEquals(a, eqeqA);
+
         // check not equal
         assertNotEquals(a, notEqA1);
         assertNotEquals(a, notEqA2);
         assertNotEquals(a, notEqA3);
-        // better style with hamcrest matchers
+        // is this better style with hamcrest matchers, gets verbose
         assertThat(a, is(equalTo(eqA)));           // fails with not
         assertThat(a, is(not(equalTo(notEqA1))));  // fails without not
         assertThat(a, is(not(equalTo(notEqA2))));  // fails without not
         assertThat(a, is(not(equalTo(notEqA3))));  // fails without not
+    }
+
+    @Test
+    public void hashCodeTest() {
+        Interval a = new Interval("name1", 1, 2);
+        Interval b = new Interval("name1", 1, 2);
+        // check SUTs good for this test
+        assertTrue(a.equals(b) && b.equals(a));
+        // test hashcodes equal for equal content objects
+        assertTrue(a.hashCode() == b.hashCode());
     }
 }

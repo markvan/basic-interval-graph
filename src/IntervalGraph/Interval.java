@@ -1,5 +1,8 @@
 package IntervalGraph;
 
+import  org.apache.commons.lang3.builder.HashCodeBuilder;
+
+
 // class for interval objects
 
 public class Interval {
@@ -19,7 +22,9 @@ public class Interval {
         end = i.getEnd();
     }
 
-    // this override of Object.equals is needed to get hamcrest equality comparisons to work
+    // this override of Object.equals is needed to get the interval graph to work and for tests
+    // to get the hamcrest equality comparisons to work
+    @Override
     public boolean equals (Object otherObject) {
         // check if the two objects are the same object, can never check null==null
         if (this == otherObject) return true;
@@ -30,6 +35,18 @@ public class Interval {
         return name.equals(otherInterval.name) &&
                 start == otherInterval.start && end == otherInterval.end;
     }
+
+    @Override
+    public int hashCode() {
+        // Hash code builder from apache language commons needs two randomly chosen prime numbers
+        return new HashCodeBuilder(17, 31).
+                // this is not a derivation so no need for 'appendSuper(super.hashCode()).'
+                append(name).
+                append(start).
+                append(end).
+                toHashCode();
+    }
+
 
     // getters
     public String getName()  { return name; }
