@@ -35,10 +35,27 @@ public class AdjacencyList {
         int i = 1;
     }
 
-    private void printTwoIntervals(String descriptorA, Interval a, String descriptorB, Interval b) {
-        System.out.println(descriptorA + ": [" + a.getName() + " " + a.getStart() + " " +a.getEnd() +"]     " +
+    /**
+     * @param intervalForNameCheck the interval whose name must be checked for uniqueness in the graph
+     * @return true if the name is unique, false otherwise
+     */
+    public boolean intervalNameIsNotDuplicate(Interval intervalForNameCheck) {
+        TreeSet<String> intervalNames = getIntervalNames();
+        String nameToCheck = intervalForNameCheck.getName();
+        return ! intervalNames.contains(nameToCheck);
+    }
 
-                descriptorB + ": [" + b.getName() + " " + b.getStart() + " " +b.getEnd() +"]     ");
+    /**
+     * Prints two intervals, each proceed by interval description
+     * @param description1
+     * @param interval1
+     * @param description2
+     * @param interval2
+     */
+    private void printTwoIntervals(String description1, Interval interval1, String description2, Interval interval2) {
+        System.out.println(description1 + ": [" + interval1.getName() + " " + interval1.getStart() + " " +interval1.getEnd() +"]     " +
+
+                description2 + ": [" + interval2.getName() + " " + interval2.getStart() + " " +interval2.getEnd() +"]     ");
     }
 
     public void addInterval(Interval newInterval) {
@@ -85,7 +102,7 @@ public class AdjacencyList {
 
     /**
      * getIntervalNames - get the names of the intervals in the interval graph<br>
-     * because a TreeSet is used for strings names are returned in lexicographic order
+     * in lexicographic order
      *
      * @return a Set&lt;String&gt; set of interval names, sorted
      */

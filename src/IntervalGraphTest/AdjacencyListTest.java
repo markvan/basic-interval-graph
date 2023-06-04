@@ -61,32 +61,76 @@ class AdjacencyListTest {
         }
     }
 
-    // test that one can retrieve all interval (aka node) names from interval graph / adjacency list
     @Test
-    void getIntervalNamesTest() {
+    void intervalNameIsNotDuplicateTest() {
+        Interval uniquelyNamedInterval = new Interval("unique name", 0, 1);
+        Interval duplicateNamedInterval = new Interval("A", 0, 1);
+        assertTrue(adjList.intervalNameIsNotDuplicate(uniquelyNamedInterval));
+        assertFalse(adjList.intervalNameIsNotDuplicate(duplicateNamedInterval));
+    }
 
-        // get the expected interval names from SUT
-        TreeSet<String> intervalNames = adjList.getIntervalNames();
 
-        // check we have the right number of names
-        //todo - maybe - to make this stricter count the number of lines in the input file
-        assertEquals(intervalNames.size(), intervalsFromFile.size());
-
-        // get the expected names, note intervalsFromFile is the result from the file parser method call
-        //todo - maybe - to make this stricter get the names from the the input file
-        Collection<String> names = new ArrayList<>();
+    /**
+     *  test that one can retrieve all interval (aka node) names from interval graph / adjacency list
+     *  AFTER SETUP
+     */
+    @Test
+    void getSetupIntervalNamesTest() {
+        // set up the list of names we expect from the input parser output
+        Collection<String> expectedIntervalNames = new ArrayList<>();
         for (Interval i : intervalsFromFile) {
-            names.add(i.getName());
+            expectedIntervalNames.add(i.getName());
         }
 
-        // intervalNames comes from the SUT, names from the parser
-        assertTrue(intervalNames.containsAll(names));
+        // get the actual interval names from SUT
+        TreeSet<String> actualIntervalNames = adjList.getIntervalNames();
 
+        // check we have the right number of interval names
+        assertEquals(actualIntervalNames.size(), intervalsFromFile.size());
+        // see if the SUT is supplying the interval names we expect
+        assertTrue(actualIntervalNames.containsAll(expectedIntervalNames) &&
+                    expectedIntervalNames.containsAll(actualIntervalNames));
     }
+
+    /**
+     *
+     */
+    @Test
+    void getIntervalNamesTest() {
+        Interval newInte1 = new Interval("new interval 1", 3, 4);
+        Interval newInte2 = new Interval("new interval 2", 30, 40);
+
+        // set up the list of names we expect from the input parser output
+        ArrayList<String> expectedNames = new ArrayList<>();
+        for (Interval i : intervalsFromFile) {
+            expectedNames.add(i.getName());
+        }
+
+        // add an interval and adjust the expected names and set the number of names
+        adjList.addInterval(newInte1);
+        expectedNames.add(newInte1.getName());
+        Collections.sort(expectedNames);
+
+        int nameCount = intervalsFromFile.size();
+
+        // get the actual interval names from SUT
+        TreeSet<String> actualIntervalNames = adjList.getIntervalNames();
+
+        // check we have the right number of interval names
+        assertEquals(actualIntervalNames.size(), nameCount);
+        // see if the SUT is supplying the interval names we expect
+        assertTrue(actualIntervalNames.containsAll(expectedNames));
+    }
+
+
 
     //todo test getIntervalFromName, getIntervals
 
 
+    /**
+     * @param intervalNames variable number of Strings denoting interval names
+     * @return an ArrayList of intervals named by the strings, in the parameter ordering
+     */
     private ArrayList<Interval> selectIntervals (String... intervalNames) {
         ArrayList<Interval> retList = new ArrayList<>();
 
@@ -100,17 +144,25 @@ class AdjacencyListTest {
         return retList;
     }
 
+    /**
+     * @param intervalNames variable number of Strings denoting interval names
+     * @return an ArrayList of intervals NOT named by the strings, in the parameter ordering
+     */
     private ArrayList<Interval> rejectIntervals (String... intervalNames) {
-        ArrayList<Interval> retList = new ArrayList<>(intervalsFromFile);
+        ArrayList<Interval> retList = new ArrayList<>(adjList.getIntervals());
 
         for (String name : intervalNames) {
-            for (Interval intvl : intervalsFromFile) {
+            for (Interval intvl : adjList.getIntervals()) {
                 if ( name.equals(intvl.getName())) {
                     retList.remove(intvl);
                 }
             }
         }
         return retList;
+    }
+
+    @Test void overlapappropriateTest () {
+
     }
 
     // has assertions without being a test, now sure about that style-wise
@@ -181,6 +233,8 @@ class AdjacencyListTest {
             throw new RuntimeException(e);
         }
     }
+
+
 
 
         // test that a new interval non-overlapping interval can be added successfully
