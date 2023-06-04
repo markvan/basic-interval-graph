@@ -96,7 +96,7 @@ class AdjacencyListTest {
      *
      */
     @Test
-    void getIntervalNamesTest() {
+    void addIntervalToNonEmptyGraphTest() {
         Interval newInte1 = new Interval("new interval 1", 3, 4);
 
         // set up the list of names we expect from the input parser output
@@ -129,7 +129,6 @@ class AdjacencyListTest {
         // see if the SUT is supplying the interval names we expect
         assertTrue(actualIntervalNames.containsAll(expectedNames) &&
                 expectedNames.containsAll(actualIntervalNames));
-
     }
 
 
