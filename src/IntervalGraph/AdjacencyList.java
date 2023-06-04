@@ -9,6 +9,8 @@ import java.util.*;
 */
 
 public class AdjacencyList {
+    final boolean debugMessages = false;
+
     private HashMap<Interval, List<Interval>> adjacencyLists = new HashMap<>();
 
     /**
@@ -72,7 +74,9 @@ public class AdjacencyList {
         // now in that adjacency list add all the overlapping intervals
         for(Interval oldInterval : preExistingIntervals) {
             if( /* (!(oldInterval.equals(newInterval))) && */ intervalsOverlap(newInterval, oldInterval)) {
-                printTwoIntervals("Existing interval", oldInterval, "overlaps new interval", newInterval);
+                if (debugMessages) {
+                    printTwoIntervals("Existing interval", oldInterval, "overlaps new interval", newInterval);
+                }
                 // making a duplicate interval here so if anyone messes with the original the
                 // AdjacencyList being instantiated is still OK
                 intersectIntervals.add(oldInterval);

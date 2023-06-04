@@ -16,7 +16,10 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.*;
 
+
 class AdjacencyListTest {
+
+    final boolean debugMessages = false;
 
     //handy list of intervals from the parsed file, set during setup
     static ArrayList<Interval> intervalsFromFile;
@@ -29,7 +32,7 @@ class AdjacencyListTest {
         // WIKIPEDIA EXAMPLE    https://en.wikipedia.org/wiki/Interval_graph
         // with an added interval 'H' that is intersects no other interval
         try {
-            FileWriter myWriter = new FileWriter("InputParserTestData.txt");
+           FileWriter myWriter = new FileWriter("InputParserTestData.txt");
 
             myWriter.write("A 1 6\n");
             myWriter.write("B 2 4\n");
@@ -41,13 +44,15 @@ class AdjacencyListTest {
             myWriter.write("H 15 16\n");
 
             myWriter.close();
-            // System.out.println("Successfully set up test data by creating 'InputParserTestData.txt'");
+            if (debugMessages) {
+                System.out.println("Successfully set up test data by creating 'InputParserTestData.txt'");
+            }
             // get the list of intervals by parsing the test input file
             intervalsFromFile = new InputParser("InputParserTestData.txt").parseFile();
             // create the SUT
             adjList = new AdjacencyList(intervalsFromFile);
         } catch (IOException e) {
-            System.out.println("IOException thrown trying to set up 'InputParserTestData.txt'");
+            System.err.println("IOException thrown trying to set up 'InputParserTestData.txt'");
             e.printStackTrace();
         }
     }
@@ -57,7 +62,7 @@ class AdjacencyListTest {
     void tearDown() {
         File file = new File("InputParserTestData.txt");
         if ( ! file.delete()) {
-            System.out.println("Failed to delete InputParserTestData.txt.");
+            System.err.println("Failed to delete InputParserTestData.txt.");
         }
     }
 

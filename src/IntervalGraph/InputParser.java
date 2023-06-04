@@ -11,6 +11,9 @@ import static java.lang.Integer.parseInt;
 // input file parser, returns a list of intervals
 
 public class InputParser {
+
+    final boolean debugMessages = false;
+
     final private String fileName;
     public InputParser(String fn) {
         fileName = fn;
@@ -33,7 +36,9 @@ public class InputParser {
 
             while((line = bufferedReader.readLine()) != null)
             {
-                System.out.println(line);
+                if (debugMessages) {
+                    System.out.println(line);
+                }
                 String lineValues[] = line.split(" ");
                 final int start = parseInt(lineValues[intervalStart]);
                 final int end   = parseInt(lineValues[intervalEnd]);
@@ -45,11 +50,11 @@ public class InputParser {
         }
         catch(FileNotFoundException e)
         {
-            System.out.println("Unable to open file '" + fileName + "'");
+            System.err.println("Unable to open file '" + fileName + "'");
         }
         catch(IOException e)
         {
-            System.out.println("Error reading file '" + fileName + "'");
+            System.err.println("Error reading file '" + fileName + "'");
         }
 
         // return the intervals in the file

@@ -39,15 +39,13 @@ public class Main {
             List<Interval> intervals = adjList.getOverlappingIntervals(intervalName);
 
             if (intervals.size() == 0) {
-                System.out.println("No overlapping intervals for interval [" + intervalName + ", "
-                        + interval.getStart() + ", " + interval.getEnd() + "]");
+                System.out.println("No overlapping intervals for interval " + interval.toString() );
 
             }
             else {
-                System.out.println("Overlapping intervals for interval [" + intervalName + ", "
-                        + interval.getStart() + ", " + interval.getEnd() + "]");
+                System.out.println("Overlapping intervals for interval " + interval.toString() );
                 for (Interval i : intervals) {
-                    System.out.println("  interval [" + i.getName() + ", " + i.getStart() + ", " + i.getEnd() + "]");
+                    System.out.println( "\t\t"+ i.toString() );
                 }
             }
 
