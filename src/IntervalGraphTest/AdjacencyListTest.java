@@ -124,6 +124,20 @@ class AdjacencyListTest {
         assertTrue(overlappingIntervalList.size()==0);
     }
 
+    @Test
+    void RemoveIntervalsFromGraphTest() {
+
+    }
+
+    /**
+     * difficult to form an inconsistent list so this was manually checked
+     * make debugMessages true to get the output to manually check
+     */
+    @Test
+    void isConsistentTest() {
+        assertTrue(adjList.isConsistent());
+    }
+
     /**
      * this test is weak, I'm not actually testing that the graph has the correct overlaps
      * //todo refactor to make dryer and add graph consistency test

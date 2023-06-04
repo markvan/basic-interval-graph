@@ -114,7 +114,6 @@ public class AdjacencyList {
      * getOverlappingtervals returns a list of intervals that overlap the named interval
      * @param  name of the interval whose overlapping intervals are wanted - String
      * @return list of Intervals that overlap the named interval
-     * @throws Exception if the named interval is not found - todo create subclass of Exception for this
      */
     public List<Interval> getOverlappingIntervals(String name)  {
         Set<Interval> intervals = getIntervals();
@@ -202,6 +201,33 @@ public class AdjacencyList {
      */
     private void printTwoIntervals(String description1, Interval interval1, String description2, Interval interval2) {
         System.out.println(description1 +" " + interval1.toString() + " "+ description2 +" "+ interval2.toString() );
+    }
+
+    public boolean isConsistent () {
+        for (Interval interval : adjacencyLists.keySet()) {
+            if (debugMessages) System.out.println("Processing keyset interval " + interval.toString() + "\n" );
+            List<Interval> inList = adjacencyLists.get(interval);
+            List<Interval> outList = new ArrayList<>();
+            for (Interval i : getIntervals()) {
+                if (!inList.contains(i))
+                    outList.add(i);
+            }
+            // outlist will contain interval, this is good,
+            // interval should not have interval on its overlapping interval list
+            for (Interval i : inList) {
+                if (debugMessages) System.out.println("   processing inList interval " + i.toString() );
+                if (!intervalsOverlap(i, interval)) return false;
+                if (!adjacencyLists.get(i).contains(interval)) return false;
+            }
+            for (Interval i : outList) {
+                if (debugMessages) System.out.println("   processing outList interval " + i.toString() );
+
+                if (i != interval && intervalsOverlap(i, interval)) return false;
+                if (adjacencyLists.get(i).contains(interval)) return false;
+            }
+            if (debugMessages) System.out.println("\n End keyset interval " + interval.toString() + "\n" );
+        }
+        return true;
     }
 
 }
