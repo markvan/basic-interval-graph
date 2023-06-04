@@ -9,7 +9,13 @@ import java.util.*;
 */
 
 public class AdjacencyList {
-    HashMap<Interval, List<Interval>> adjacencyLists = new HashMap<>();
+    private HashMap<Interval, List<Interval>> adjacencyLists = new HashMap<>();
+
+    /**
+     * constructor for an empty graph, works because of instance variable assignment
+     */
+    public AdjacencyList () { }
+
     /**
      * constructor for an AdjacencyList
      * @param intervalList  a list of intervals forming the interval graph, may be null
@@ -27,41 +33,11 @@ public class AdjacencyList {
                     if (interval != innerInterval && intervalsOverlap(interval, innerInterval)) {
                         // making a duplicate interval here so if anyone messes with the original the
                         // AdjacencyList being instantiated is still OK
-                        intersectIntervals.add(new Interval(innerInterval));
+                        intersectIntervals.add(innerInterval);
                     }
                 }
             }
         }
-        int i = 1;
-    }
-
-    /**
-     * @param intervalForNameCheck the interval whose name must be checked for uniqueness in the graph
-     * @return true if the name is not in the graph, false otherwise
-     */
-    public boolean intervalNameIsNotDuplicate(Interval intervalForNameCheck) {
-        return ! intervalNameIsDuplicate(intervalForNameCheck);
-    }
-
-    /**
-     * @param intervalForNameCheck the interval whose name must be checked for duplication in the graph
-     * @return true if the name is duplicated in the graph, false otherwise
-     */
-    public boolean intervalNameIsDuplicate(Interval intervalForNameCheck) {
-        TreeSet<String> intervalNames = getIntervalNames();
-        String nameToCheck = intervalForNameCheck.getName();
-        return intervalNames.contains(nameToCheck);
-    }
-
-    /**
-     * Prints two intervals, each proceed by interval description
-     * @param description1
-     * @param interval1
-     * @param description2
-     * @param interval2
-     */
-    private void printTwoIntervals(String description1, Interval interval1, String description2, Interval interval2) {
-        System.out.println(description1 +" " + interval1.toString() + " "+ description2 +" "+ interval2.toString() );
     }
 
      /**
@@ -101,18 +77,17 @@ public class AdjacencyList {
                 // AdjacencyList being instantiated is still OK
                 intersectIntervals.add(oldInterval);
                 // add overlapping new interval to preexisting interval's overlapping intervals list
-                adjacencyLists.get(oldInterval).add(new Interval(newInterval));
+                adjacencyLists.get(oldInterval).add(newInterval);
             }
         }
     }
 
     /**
-     * getIntervalNames - get the names of the intervals in the interval graph<br>
+     * return the names of the intervals in the interval graph<br>
      * in lexicographic order
      *
      * @return a Set&lt;String&gt; set of interval names, sorted
      */
-
     public TreeSet<String> getIntervalNames() {
         TreeSet<String> retSet = new TreeSet<>();
         (adjacencyLists.keySet()).forEach((i) -> retSet.add(i.getName()));
@@ -120,7 +95,7 @@ public class AdjacencyList {
     }
 
     /**
-     * getIntervalNames - get the intervals in the interval graph
+     * return the intervals in the interval graph
      *
      * @return a Set&lt;Interval&gt; set of interval names, sorted
      */
@@ -157,7 +132,7 @@ public class AdjacencyList {
         List<Interval> overlappingIntervalsList = adjacencyLists.get(interval);
         List<Interval> retOverlappingIntervalsList = new ArrayList<Interval>();
         for (Interval i : overlappingIntervalsList) {
-            retOverlappingIntervalsList.add(new Interval( i ));
+            retOverlappingIntervalsList.add( i );
         }
         return retOverlappingIntervalsList;
     }
@@ -187,18 +162,39 @@ public class AdjacencyList {
     }
 
     /**
-     * @return
+     * @return return the number of intervals in the graph
      */
     public int size() {
         return adjacencyLists.size();
     }
 
-    private void sort() {
-
+    /**
+     * @param intervalForNameCheck the interval whose name must be checked for uniqueness in the graph
+     * @return true if the name is not in the graph, false otherwise
+     */
+    public boolean intervalNameIsNotDuplicate(Interval intervalForNameCheck) {
+        return ! intervalNameIsDuplicate(intervalForNameCheck);
     }
 
-    boolean consistent () {
-        return true;
-
+    /**
+     * @param intervalForNameCheck the interval whose name must be checked for duplication in the graph
+     * @return true if the name is duplicated in the graph, false otherwise
+     */
+    public boolean intervalNameIsDuplicate(Interval intervalForNameCheck) {
+        TreeSet<String> intervalNames = getIntervalNames();
+        String nameToCheck = intervalForNameCheck.getName();
+        return intervalNames.contains(nameToCheck);
     }
+
+    /**
+     * Prints two intervals, each proceed by interval description
+     * @param description1
+     * @param interval1
+     * @param description2
+     * @param interval2
+     */
+    private void printTwoIntervals(String description1, Interval interval1, String description2, Interval interval2) {
+        System.out.println(description1 +" " + interval1.toString() + " "+ description2 +" "+ interval2.toString() );
+    }
+
 }

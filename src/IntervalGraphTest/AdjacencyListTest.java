@@ -131,10 +131,7 @@ class AdjacencyListTest {
                 expectedNames.containsAll(actualIntervalNames));
     }
 
-
-
     //todo test getIntervalFromName, getIntervals
-
 
     /**
      * @param intervalNames variable number of Strings denoting interval names
