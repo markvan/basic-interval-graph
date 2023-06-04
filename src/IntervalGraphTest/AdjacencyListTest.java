@@ -26,11 +26,13 @@ class AdjacencyListTest {
     // SUT, created during setup
     static AdjacencyList adjList;
 
-    // create a file containing the input the tests need
+    /**
+     * Setup: create a file containing the input the tests need<br>
+     * this is the WIKIPEDIA EXAMPLE    https://en.wikipedia.org/wiki/Interval_graph <br>
+     * with an added interval 'H' that is intersects no other interval
+     */
     @org.junit.jupiter.api.BeforeEach
     void setUp() {
-        // WIKIPEDIA EXAMPLE    https://en.wikipedia.org/wiki/Interval_graph
-        // with an added interval 'H' that is intersects no other interval
         try {
            FileWriter myWriter = new FileWriter("InputParserTestData.txt");
 
@@ -57,7 +59,9 @@ class AdjacencyListTest {
         }
     }
 
-    // just delete the test input file on teardown
+    /**
+     * just delete the test input file on teardown
+     */
     @org.junit.jupiter.api.AfterEach
     void tearDown() {
         File file = new File("InputParserTestData.txt");
@@ -66,6 +70,9 @@ class AdjacencyListTest {
         }
     }
 
+    /**
+     * test we can determine if an interval name is in the graph or not
+     */
     @Test
     void intervalNameIsNotDuplicateTest() {
         Interval uniquelyNamedInterval = new Interval("unique name", 0, 1);
@@ -122,6 +129,9 @@ class AdjacencyListTest {
 
         overlappingIntervalList= adjList.getOverlappingIntervals("CC");
         assertTrue(overlappingIntervalList.size()==0);
+
+        assertTrue(adjList.isConsistent());
+
     }
 
     @Test
@@ -139,8 +149,8 @@ class AdjacencyListTest {
     }
 
     /**
-     * this test is weak, I'm not actually testing that the graph has the correct overlaps
-     * //todo refactor to make dryer and add graph consistency test
+     * test we can add an overlapping interval and a non-overlapping interval to a non-empty graph
+     * //todo make DRY
      */
     @Test
     void addIntervalToNonEmptyGraphTest() {
@@ -154,7 +164,6 @@ class AdjacencyListTest {
         // add an interval and adjust the expected names and set the number of names
         adjList.addInterval(newInte1);
         expectedNames.add(newInte1.getName());
-        Collections.sort(expectedNames);
         // check we have the right number of intervals
         assertEquals(oldCount+1, adjList.size());
         // get the actual interval names from SUT
@@ -163,12 +172,13 @@ class AdjacencyListTest {
         assertTrue(actualIntervalNames.containsAll(expectedNames) &&
                     expectedNames.containsAll(actualIntervalNames));
 
+        assertTrue(adjList.isConsistent());
+
         //try with another interval
         Interval newInte2 = new Interval("new interval 2", 30, 40);
         // add an interval and adjust the expected names and set the number of names
         adjList.addInterval(newInte2);
         expectedNames.add(newInte2.getName());
-        Collections.sort(expectedNames);
         // check we have the right number of intervals
         assertEquals(oldCount+2, adjList.size());
         // get the actual interval names from SUT
@@ -176,11 +186,15 @@ class AdjacencyListTest {
         // see if the SUT is supplying the interval names we expect
         assertTrue(actualIntervalNames.containsAll(expectedNames) &&
                 expectedNames.containsAll(actualIntervalNames));
+
+        assertTrue(adjList.isConsistent());
+
     }
 
     //todo test getIntervalFromName, getIntervals
 
     /**
+     * Helper method
      * @param intervalNames variable number of Strings denoting interval names
      * @return an ArrayList of intervals named by the strings, in the parameter ordering
      */
@@ -198,6 +212,7 @@ class AdjacencyListTest {
     }
 
     /**
+     * Helper method
      * @param intervalNames variable number of Strings denoting interval names
      * @return an ArrayList of intervals NOT named by the strings, in the parameter ordering
      */
@@ -214,10 +229,11 @@ class AdjacencyListTest {
         return retList;
     }
 
-    @Test void overlapappropriateTest () {
-
-    }
-
+    /**
+     * This is a helper method for other tests
+     * //todo think that this may be redundant now that we have a tested isConistent method in AdjacencyList
+     * //todo evaluate style as per comment above the method
+     */
     // has assertions without being a test, now sure about that style-wise
     // args are the names of intervals in the interval graph
     // check the first arg only appears in overlapping lists for the remaining args,
@@ -238,14 +254,11 @@ class AdjacencyListTest {
         }
     }
 
-    @Test
-    void aTest () {
-        adjList.getIntervalNames();
-        int i=1;
-    }
 
-
-    // test all intervals to see if they overlap appropriately
+    /**
+     * test that all intervals in a graph overlap appropriately
+     */
+    //
     @Test
     void getOverlappingIntervalsTest() {
         try {
@@ -264,7 +277,10 @@ class AdjacencyListTest {
         }
     }
 
-    // test that a new interval non-overlapping interval can be added successfully
+    /**
+     * test that a new interval non-overlapping interval can be added successfully
+     * //todo can I get rid of the exception that I guard against here?
+     */
     @Test
     void addNonOverlappingIntervalTest () {
         // create a non-overlapping interval and add it
@@ -288,9 +304,9 @@ class AdjacencyListTest {
     }
 
 
-
-
-        // test that a new interval non-overlapping interval can be added successfully
+    /**
+     * test that a new interval non-overlapping interval can be added successfully
+     */
         @Test
         void addOverlappingIntervalTest () {
             // create a non-overlapping interval and add it
@@ -315,6 +331,9 @@ class AdjacencyListTest {
 
         }
 
+    /**
+     * test that an interval can be added to an empty graph
+     */
         @Test
         void addIntervalsStartingWithEmptyGraphTest () {
             adjList = new AdjacencyList(null);
@@ -326,8 +345,11 @@ class AdjacencyListTest {
             }
         }
 
+    /**
+     * test that the intervals overlap method works correctly
+     */
     @Test
-    void intervalsIntersectTest() {
+    void intervalsOverlapTest() {
         // non overlapping
         Interval i1 = new Interval("A", 1, 2);
         Interval i2 = new Interval("A", 4, 6);
