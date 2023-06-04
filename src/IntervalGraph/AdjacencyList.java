@@ -37,12 +37,20 @@ public class AdjacencyList {
 
     /**
      * @param intervalForNameCheck the interval whose name must be checked for uniqueness in the graph
-     * @return true if the name is unique, false otherwise
+     * @return true if the name is not in the graph, false otherwise
      */
     public boolean intervalNameIsNotDuplicate(Interval intervalForNameCheck) {
+        return ! intervalNameIsDuplicate(intervalForNameCheck);
+    }
+
+    /**
+     * @param intervalForNameCheck the interval whose name must be checked for duplication in the graph
+     * @return true if the name is duplicated in the graph, false otherwise
+     */
+    public boolean intervalNameIsDuplicate(Interval intervalForNameCheck) {
         TreeSet<String> intervalNames = getIntervalNames();
         String nameToCheck = intervalForNameCheck.getName();
-        return ! intervalNames.contains(nameToCheck);
+        return intervalNames.contains(nameToCheck);
     }
 
     /**
@@ -53,51 +61,49 @@ public class AdjacencyList {
      * @param interval2
      */
     private void printTwoIntervals(String description1, Interval interval1, String description2, Interval interval2) {
-        System.out.println(description1 + ": [" + interval1.getName() + " " + interval1.getStart() + " " +interval1.getEnd() +"]     " +
-
-                description2 + ": [" + interval2.getName() + " " + interval2.getStart() + " " +interval2.getEnd() +"]     ");
+        System.out.println(description1 +" " + interval1.toString() + " "+ description2 +" "+ interval2.toString() );
     }
 
+     /**
+     * add an interval to the graph, includes a check that the name is not already used in the graph
+     * @param newInterval interval to add
+     */
     public void addInterval(Interval newInterval) {
         //todo check interval is not in graph already
 
         // create a copy so no one can mess with the graph
-        Interval intervalToAdd = new Interval(newInterval);
-        // get all the existing intervals
-        Set<Interval> preExistingIntervals = getIntervals();
+        //Interval newInterval = new Interval(newInterval);
 
-        for (Interval inte : preExistingIntervals) {
-            if (inte.equals(newInterval)) {
-                System.out.println("**************** trouble ");
-            }
+        if ( intervalNameIsDuplicate(newInterval) ) {
+                System.err.println("**************** Error: addInterval is called  with duplicate interval name: " +
+                        newInterval.toString() );
+        } else {
+            safelyAddInterval(newInterval);
         }
+    }
 
-        // create an overlapping list for intervalToAdd
+    /**
+     * add an interval to the graph after check that the name is not already used in the graph
+     * @param newInterval  interval to add
+     */
+    private void safelyAddInterval(Interval newInterval) {
+        // get all the intervals before the addition
+        Set<Interval> preExistingIntervals = getIntervals();
+        // create an overlap list for newInterval
         List<Interval> intersectIntervals = new ArrayList<>();
         // stick the adjacency list in the hashmap, indexed by the interval
-        adjacencyLists.put(intervalToAdd, intersectIntervals);
-        // get all the intervals including the interval being added
-
-        for (Interval inte : preExistingIntervals) {
-            if (inte.equals(newInterval)) {
-                System.out.println("**************** trouble ");
-            }
-        }
-
+        adjacencyLists.put(newInterval, intersectIntervals);
         // now in that adjacency list add all the overlapping intervals
         for(Interval oldInterval : preExistingIntervals) {
             if( /* (!(oldInterval.equals(newInterval))) && */ intervalsOverlap(newInterval, oldInterval)) {
-                printTwoIntervals("Pre existing interval", oldInterval, "New interval", newInterval);
-
+                printTwoIntervals("Existing interval", oldInterval, "overlaps new interval", newInterval);
                 // making a duplicate interval here so if anyone messes with the original the
                 // AdjacencyList being instantiated is still OK
-                intersectIntervals.add(new Interval(oldInterval));
+                intersectIntervals.add(oldInterval);
                 // add overlapping new interval to preexisting interval's overlapping intervals list
                 adjacencyLists.get(oldInterval).add(new Interval(newInterval));
             }
         }
-
-        // add
     }
 
     /**
@@ -178,6 +184,13 @@ public class AdjacencyList {
             }
         }
         return null;
+    }
+
+    /**
+     * @return
+     */
+    public int size() {
+        return adjacencyLists.size();
     }
 
     private void sort() {

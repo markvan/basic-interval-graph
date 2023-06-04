@@ -98,28 +98,38 @@ class AdjacencyListTest {
     @Test
     void getIntervalNamesTest() {
         Interval newInte1 = new Interval("new interval 1", 3, 4);
-        Interval newInte2 = new Interval("new interval 2", 30, 40);
 
         // set up the list of names we expect from the input parser output
         ArrayList<String> expectedNames = new ArrayList<>();
-        for (Interval i : intervalsFromFile) {
-            expectedNames.add(i.getName());
-        }
+        intervalsFromFile.forEach(inte -> expectedNames.add(inte.getName()));
+        final int oldCount = expectedNames.size();
 
         // add an interval and adjust the expected names and set the number of names
         adjList.addInterval(newInte1);
         expectedNames.add(newInte1.getName());
         Collections.sort(expectedNames);
-
-        int nameCount = intervalsFromFile.size();
-
+        // check we have the right number of intervals
+        assertEquals(oldCount+1, adjList.size());
         // get the actual interval names from SUT
         TreeSet<String> actualIntervalNames = adjList.getIntervalNames();
-
-        // check we have the right number of interval names
-        assertEquals(actualIntervalNames.size(), nameCount);
         // see if the SUT is supplying the interval names we expect
-        assertTrue(actualIntervalNames.containsAll(expectedNames));
+        assertTrue(actualIntervalNames.containsAll(expectedNames) &&
+                    expectedNames.containsAll(actualIntervalNames));
+
+        //try with another interval
+        Interval newInte2 = new Interval("new interval 2", 30, 40);
+        // add an interval and adjust the expected names and set the number of names
+        adjList.addInterval(newInte2);
+        expectedNames.add(newInte2.getName());
+        Collections.sort(expectedNames);
+        // check we have the right number of intervals
+        assertEquals(oldCount+2, adjList.size());
+        // get the actual interval names from SUT
+        actualIntervalNames = adjList.getIntervalNames();
+        // see if the SUT is supplying the interval names we expect
+        assertTrue(actualIntervalNames.containsAll(expectedNames) &&
+                expectedNames.containsAll(actualIntervalNames));
+
     }
 
 

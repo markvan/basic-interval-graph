@@ -5,7 +5,7 @@ import  org.apache.commons.lang3.builder.HashCodeBuilder;
 
 // class for interval objects
 
-public class Interval implements Comparable<Interval> {
+public final class Interval implements Comparable<Interval> {
     final private String name;
     final private int start;
     final private int end;
@@ -58,5 +58,9 @@ public class Interval implements Comparable<Interval> {
     public String getName()  { return name; }
     public int    getStart() { return start; }
     public int    getEnd()    { return end; }
+
+    public String toString() {
+        return "[ \"" + getName() + "\", " + getStart() + ", " + getEnd() +" ]";
+    }
 
 }
