@@ -105,9 +105,8 @@ public class AdjacencyList {
      */
     public Set<Interval> getIntervals() {
         TreeSet<Interval> retSet = new TreeSet<>();
-        for(Interval inte : adjacencyLists.keySet()) {
-            retSet.add(inte);
-        }
+        // copy the intervals is not needed here, they are pointed ot internally in Interval list
+        (adjacencyLists.keySet()).forEach((i) -> retSet.add(i));
         return retSet;
     }
 
@@ -117,10 +116,7 @@ public class AdjacencyList {
      * @return list of Intervals that overlap the named interval
      * @throws Exception if the named interval is not found - todo create subclass of Exception for this
      */
-    public List<Interval> getOverlappingIntervals(String name) throws Exception {
-        // need care here, eg in a test or when used, may be supplied with a interval that has the same values
-        // but is not at the same memory address as the 'matching' key... which probably would make various
-        // list operations fail, so retrieve the matching key object first
+    public List<Interval> getOverlappingIntervals(String name)  {
         Set<Interval> intervals = getIntervals();
         Interval interval = null;
         for (Interval i : intervals) {
@@ -130,13 +126,20 @@ public class AdjacencyList {
         }
         // did we find an interval for the supplied interval's name?
         if (interval == null) {
-            throw new Exception("Bad interval name supplied to AdjacencyList getOverlappingtervals");
+            System.err.println ("Non-existent interval name"+name+"  supplied to AdjacencyList getOverlappingtervals");
+            return null;
         }
         //  supply a copy of a list of overlapping intervals for safety, maintains encapsulation
+        // just in case a caller of this method messes with the returned the list
         List<Interval> overlappingIntervalsList = adjacencyLists.get(interval);
         List<Interval> retOverlappingIntervalsList = new ArrayList<Interval>();
         for (Interval i : overlappingIntervalsList) {
-            retOverlappingIntervalsList.add( i );
+            retOverlappingIntervalsList.add( new Interval(i) );
+        }
+        // if there are no overlapping intervals retOverlappingIntervalsList == null
+        // but want to return an empty list
+        if (retOverlappingIntervalsList == null) {
+            retOverlappingIntervalsList = new ArrayList<Interval>();
         }
         return retOverlappingIntervalsList;
     }

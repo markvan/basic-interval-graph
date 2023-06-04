@@ -41,7 +41,7 @@ class InputParserTest {
         }
     }
 
-    // I'm just experimenting with asserti
+    // I'm just experimenting with assertions
     @Test
     void parseFile() {
         // make list of expected intervals

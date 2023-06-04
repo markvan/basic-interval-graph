@@ -98,7 +98,35 @@ class AdjacencyListTest {
     }
 
     /**
-     *
+     * check can make first steps in populating a graph
+     */
+    @Test
+    void addIntervalsToEmptyGraphTest() {
+        adjList = new AdjacencyList();
+        Interval aa = new Interval("AA", 3, 4);
+        adjList.addInterval(aa);
+        assertTrue(adjList.size() == 1);
+        Interval bb = new Interval("BB", 3, 8);
+        adjList.addInterval(bb);
+        Interval cc = new Interval("CC", 30, 38);
+        adjList.addInterval(cc);
+        assertTrue(adjList.size() == 3);
+        List<Interval> resultList = new ArrayList<>();
+        List<Interval> overlappingIntervalList= adjList.getOverlappingIntervals("AA");
+        assertTrue(overlappingIntervalList.size()==1);
+        assertTrue( overlappingIntervalList.contains(bb));
+
+        overlappingIntervalList= adjList.getOverlappingIntervals("BB");
+        assertTrue(overlappingIntervalList.size()==1);
+        assertTrue( overlappingIntervalList.contains(aa));
+
+        overlappingIntervalList= adjList.getOverlappingIntervals("CC");
+        assertTrue(overlappingIntervalList.size()==0);
+    }
+
+    /**
+     * this test is weak, I'm not actually testing that the graph has the correct overlaps
+     * //todo refactor to make dryer and add graph consistency test
      */
     @Test
     void addIntervalToNonEmptyGraphTest() {
