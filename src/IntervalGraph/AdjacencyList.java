@@ -10,6 +10,7 @@ import java.util.*;
 
 public class AdjacencyList {
     final boolean debugMessages = false;
+    final boolean consistencyCheckMessages = false;
 
     private HashMap<Interval, List<Interval>> adjacencyLists = new HashMap<>();
 
@@ -205,7 +206,7 @@ public class AdjacencyList {
 
     public boolean isConsistent () {
         for (Interval interval : adjacencyLists.keySet()) {
-            if (debugMessages) System.out.println("Processing keyset interval " + interval.toString() + "\n" );
+            if (consistencyCheckMessages) System.out.println("Processing keyset interval " + interval.toString() + "\n" );
             List<Interval> inList = adjacencyLists.get(interval);
             List<Interval> outList = new ArrayList<>();
             for (Interval i : getIntervals()) {
@@ -215,17 +216,17 @@ public class AdjacencyList {
             // outlist will contain interval, this is good,
             // interval should not have interval on its overlapping interval list
             for (Interval i : inList) {
-                if (debugMessages) System.out.println("   processing inList interval " + i.toString() );
+                if (consistencyCheckMessages) System.out.println("   processing inList interval " + i.toString() );
                 if (!intervalsOverlap(i, interval)) return false;
                 if (!adjacencyLists.get(i).contains(interval)) return false;
             }
             for (Interval i : outList) {
-                if (debugMessages) System.out.println("   processing outList interval " + i.toString() );
+                if (consistencyCheckMessages) System.out.println("   processing outList interval " + i.toString() );
 
                 if (i != interval && intervalsOverlap(i, interval)) return false;
                 if (adjacencyLists.get(i).contains(interval)) return false;
             }
-            if (debugMessages) System.out.println("\n End keyset interval " + interval.toString() + "\n" );
+            if (consistencyCheckMessages) System.out.println("\n End keyset interval " + interval.toString() + "\n" );
         }
         return true;
     }

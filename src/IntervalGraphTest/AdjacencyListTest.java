@@ -134,14 +134,22 @@ class AdjacencyListTest {
 
     }
 
+    /**
+     * test removal of intervals from the graph
+     */
     @Test
     void RemoveIntervalsFromGraphTest() {
+        // first, remove single-overlapping G and check its gone from F, leaving A, B, C, D, E and H unchanged
+        // second, remove twice-overlapping interval E and check its gone from C and D, leaving A, B, F and H unchanged
+        // third, remove thrice overlapping A and check its gone from B, C and D, leaving F and H unchanged
+        // fourth, remove non-overlapping H leaving B, C, D and F unchanged
+        // each time, also check the number of intervals in the graph and the graph consistency
 
     }
 
     /**
      * difficult to form an inconsistent list so this was manually checked
-     * make debugMessages true to get the output to manually check
+     * set consistencyCheckMessages in AdjaencyList code to true to get the output to manually check
      */
     @Test
     void isConsistentTest() {
