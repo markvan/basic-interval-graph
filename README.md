@@ -73,11 +73,11 @@ So instead I'll go with implementing my own adjacency list code in this repo.
 
 Using IntelliJ IDEA in the simplest way, this requires
 
-1. [Hamcrest jar](https://search.maven.org/artifact/org.hamcrest/hamcrest) to be installed on the class path in order
-t  o compile (at least some of) the tests.
+1. [hamcrest-all-1.3.jar](http://www.java2s.com/Code/Jar/h/Downloadhamcrestall13jar.htm) in order
+   to compile (at least some of) the tests. Note all-1.3, not 2.2, version
 2. [Apache Commons Lang](https://commons.apache.org/proper/commons-lang/download_lang.cgi) 
-   to be installed on the class path in order
-   to use its hashing functionality in the Interval class, so intervals can be used in a HashMap.
+  in order to use HashCodeBuilder in the Interval class. 
+  This to enable intervals use in a HashMap.
 
 Obviously you could use Gradle or Maven to do the build.
 
@@ -99,49 +99,38 @@ Notes:
 
 ### Output from running main
 
-Format has changed a bit
-
 ```
 Parsing the interval data
-A 1 6
-B 2 4
-C 3 11
-D 5 10
-E 7 8
-F 9 13
-G 12 14
-H 15 16
 Building the interval graph
-Listing intersecting intervals for each interval
-Intersecting intervals for interval A
-interval [B, 2, 4]
-interval [C, 3, 11]
-interval [D, 5, 10]
-Intersecting intervals for interval B
-interval [A, 1, 6]
-interval [C, 3, 11]
-Intersecting intervals for interval C
-interval [A, 1, 6]
-interval [B, 2, 4]
-interval [D, 5, 10]
-interval [E, 7, 8]
-interval [F, 9, 13]
-Intersecting intervals for interval D
-interval [A, 1, 6]
-interval [C, 3, 11]
-interval [E, 7, 8]
-interval [F, 9, 13]
-Intersecting intervals for interval E
-interval [C, 3, 11]
-interval [D, 5, 10]
-Intersecting intervals for interval F
-interval [C, 3, 11]
-interval [D, 5, 10]
-interval [G, 12, 14]
-Intersecting intervals for interval G
-interval [F, 9, 13]
-Intersecting intervals for interval H
-no intersecting intervals
+Listing overlapping intervals for each interval
+Overlapping intervals for interval [ "A", 1, 6 ]
+		[ "B", 2, 4 ]
+		[ "C", 3, 11 ]
+		[ "D", 5, 10 ]
+Overlapping intervals for interval [ "B", 2, 4 ]
+		[ "A", 1, 6 ]
+		[ "C", 3, 11 ]
+Overlapping intervals for interval [ "C", 3, 11 ]
+		[ "A", 1, 6 ]
+		[ "B", 2, 4 ]
+		[ "D", 5, 10 ]
+		[ "E", 7, 8 ]
+		[ "F", 9, 13 ]
+Overlapping intervals for interval [ "D", 5, 10 ]
+		[ "A", 1, 6 ]
+		[ "C", 3, 11 ]
+		[ "E", 7, 8 ]
+		[ "F", 9, 13 ]
+Overlapping intervals for interval [ "E", 7, 8 ]
+		[ "C", 3, 11 ]
+		[ "D", 5, 10 ]
+Overlapping intervals for interval [ "F", 9, 13 ]
+		[ "C", 3, 11 ]
+		[ "D", 5, 10 ]
+		[ "G", 12, 14 ]
+Overlapping intervals for interval [ "G", 12, 14 ]
+		[ "F", 9, 13 ]
+No overlapping intervals for interval [ "H", 15, 16 ]
 
 Process finished with exit code 0
 ```
