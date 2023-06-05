@@ -88,6 +88,16 @@ public class AdjacencyList {
     }
 
     /**
+     * @param intervalToRemoveName - name of the interval to remove
+     * @return null if null name was not in the graph, otherwise the removed interval
+     */
+    public Interval removeIntervalFromGraphTest(String intervalToRemoveName) {
+        Interval retInterval = null;
+
+        return retInterval;
+    }
+
+    /**
      * return the names of the intervals in the interval graph<br>
      * in lexicographic order
      *
@@ -204,6 +214,9 @@ public class AdjacencyList {
         System.out.println(description1 +" " + interval1.toString() + " "+ description2 +" "+ interval2.toString() );
     }
 
+    /**
+     * @return boolean to show if the graph is consistent or not
+     */
     public boolean isConsistent () {
         for (Interval interval : adjacencyLists.keySet()) {
             if (consistencyCheckMessages) System.out.println("Processing keyset interval " + interval.toString() + "\n" );
