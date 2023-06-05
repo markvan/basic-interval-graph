@@ -92,11 +92,35 @@ public class AdjacencyList {
      * @return null if null name was not in the graph, otherwise the removed interval
      */
     public Interval removeIntervalFromGraphTest(String intervalToRemoveName) {
+        // check interval is in graph, return if not
         if(getIntervalFromName(intervalToRemoveName)==null) return null;
 
-        Interval retInterval = null;
+        Interval intervalToRemove = getIntervalFromName(intervalToRemoveName);
+        boolean goneWrong = false;
+        List<Interval> intervalsToAdjust = getOverlappingIntervals(intervalToRemoveName);
+        for(Interval i : intervalsToAdjust) {
+            if ( ! goneWrong && removeIntervalFromOverlap(i, intervalToRemove) == null) {
+                goneWrong = true;
+            }
+        }
+        removeIntervalFromAdjacencyList(intervalToRemove);
 
-        return retInterval;
+        return goneWrong ? null : intervalToRemove;
+    }
+
+    private Interval removeIntervalFromOverlap(Interval from, Interval toRemove) {
+        Interval removedOrNull = adjacencyLists.get(from).remove(toRemove) ? toRemove : null;
+        if (removed ==null) {
+            System.err.println("While trying to remove interval from overlap list for "+from.toString()+
+                                    "interval to remove, "+toRemove.toString()+", was not found in overlap list");
+        }
+        return removedOrNull;
+    }
+
+    private void removeIntervalFromAdjacencyList(Interval toRemove) {
+        // precondition the interval to remove is in the HashMap adjacencyLists,
+        // so remove will remove key and mapping for Interval toRemove
+        adjacencyLists.remove(toRemove);
     }
 
     /**
