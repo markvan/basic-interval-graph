@@ -141,11 +141,47 @@ class AdjacencyListTest {
     void RemoveIntervalsFromGraphTest() {
         // ** first ** check that a non-existent interval name causes a null return
         assertTrue(adjList.removeIntervalFromGraphTest("no exist name")==null);
+
         // ** second ** remove single-overlapping G and check its gone from F, leaving A, B, C, D, E and H unchanged
         // ** each step ** also check the number of intervals in the graph and the graph consistency
         Interval toRemove = adjList.getIntervalFromName("G");
+        int oldCount = adjList.size();
         assertTrue(adjList.removeIntervalFromGraphTest("G")==toRemove);
+        assertTrue (adjList.size()==(oldCount-1));
+        assertTrue(adjList.isConsistent());
+        //belt and braces, but want to see isConsistent and overlap appropriate working together to check isConsistent
+        try {
+            // first arg is the interval being considered, remaining args are the only overlapping intervals
+            overlapAppropriate("A", "B", "C", "D");
+            overlapAppropriate("B", "A", "C");
+            overlapAppropriate("C", "A", "B", "D", "E", "F");
+            overlapAppropriate("D", "A", "C", "E", "F");
+            overlapAppropriate("E", "C", "D");
+            overlapAppropriate("F", "C", "D");
+            overlapAppropriate("H" );
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
         // ** third ** remove twice-overlapping interval E and check its gone from C and D, leaving A, B, F and H unchanged
+        toRemove = adjList.getIntervalFromName("E");
+        oldCount = adjList.size();
+        assertTrue(adjList.removeIntervalFromGraphTest("E")==toRemove);
+        assertTrue (adjList.size()==(oldCount-1));
+        assertTrue(adjList.isConsistent());
+        //belt and braces, but want to see isConsistent and overlap appropriate working together to check isConsistent
+        try {
+            // first arg is the interval being considered, remaining args are the only overlapping intervals
+            overlapAppropriate("A", "B", "C", "D");
+            overlapAppropriate("B", "A", "C");
+            overlapAppropriate("C", "A", "B", "D", "F");
+            overlapAppropriate("D", "A", "C", "F");
+            overlapAppropriate("F", "C", "D");
+            overlapAppropriate("H" );
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
         // ** fourth ** remove thrice overlapping A and check its gone from B, C and D, leaving F and H unchanged
         // ** fifth ** remove non-overlapping H leaving B, C, D and F unchanged
 
@@ -211,16 +247,19 @@ class AdjacencyListTest {
      * @return an ArrayList of intervals named by the strings, in the parameter ordering
      */
     private ArrayList<Interval> selectIntervals (String... intervalNames) {
-        ArrayList<Interval> retList = new ArrayList<>();
+        ArrayList<Interval> retIntervals = new ArrayList<>();
+        TreeSet<Interval> allIntervals = new TreeSet<>(adjList.getIntervals());
 
         for (String name : intervalNames) {
-            for (Interval intvl : adjList.getIntervals()) {
-                if ( name.equals(intvl.getName())) {
-                    retList.add(intvl);
+            for (Interval inte :allIntervals) {
+                if ( name.equals(inte.getName())) {
+                    retIntervals.add(inte);
                 }
             }
         }
-        return retList;
+        // check its working, kindof
+        assertEquals(intervalNames.length, retIntervals.size());
+        return retIntervals;
     }
 
     /**
@@ -255,7 +294,7 @@ class AdjacencyListTest {
         // get the intervals we expect will overlap the test interval
         List<Interval> expectedIntervals = selectIntervals(overlappingIntervalNames);
         //check the actual list from the SUT is the same as the expected intervals
-        assertEquals(adjList.getOverlappingIntervals(testIntervalName), expectedIntervals);
+        assertEquals(expectedIntervals, adjList.getOverlappingIntervals(testIntervalName));
         //check testIntervalName is not in the lists for any interval that is not in the overlappingIntervalNames
         // includes it should not be in its own list
         List<Interval> notExpectedInIntervals = rejectIntervals(overlappingIntervalNames);

@@ -97,29 +97,47 @@ public class AdjacencyList {
 
         Interval intervalToRemove = getIntervalFromName(intervalToRemoveName);
         boolean goneWrong = false;
+        // remove entries for intervalToRemove in overlap lists
         List<Interval> intervalsToAdjust = getOverlappingIntervals(intervalToRemoveName);
         for(Interval i : intervalsToAdjust) {
             if ( ! goneWrong && removeIntervalFromOverlap(i, intervalToRemove) == null) {
                 goneWrong = true;
             }
         }
+        // remove the key and overlap list from the adjacency lists aka graph
         removeIntervalFromAdjacencyList(intervalToRemove);
 
         return goneWrong ? null : intervalToRemove;
     }
 
+    /**
+     * helper method for removeIntervalFromGraphTest
+     * @param from the interval with the overlap list that is to have toRemove removed from it
+     * @param toRemove the interval to remove from the overlap list
+     * @return returns toRemove if successful removal, null otherwise
+     */
     private Interval removeIntervalFromOverlap(Interval from, Interval toRemove) {
+        // remove Interval toRemove from the overlap list for Interval from
         Interval removedOrNull = adjacencyLists.get(from).remove(toRemove) ? toRemove : null;
-        if (removed ==null) {
+        // if nothing was removed (an error, not found Interval toRemove in overlap list) report that error
+        if (removedOrNull ==null) {
             System.err.println("While trying to remove interval from overlap list for "+from.toString()+
                                     "interval to remove, "+toRemove.toString()+", was not found in overlap list");
         }
         return removedOrNull;
     }
 
+    /**
+     * helper method for removeIntervalFromGraphTest
+     * @param toRemove interval to remove from the adjacency graph
+     */
     private void removeIntervalFromAdjacencyList(Interval toRemove) {
         // precondition the interval to remove is in the HashMap adjacencyLists,
-        // so remove will remove key and mapping for Interval toRemove
+        // so remove will remove key and mapping for Interval toRemove, but for now lets check
+        if( ! adjacencyLists.keySet().contains(toRemove)) {
+            System.err.println("While trying to remove key and values, "+toRemove.toString()+", was not a key");
+        }
+        // will return null if not a key or having a null value
         adjacencyLists.remove(toRemove);
     }
 
@@ -162,7 +180,7 @@ public class AdjacencyList {
         }
         // did we find an interval for the supplied interval's name?
         if (interval == null) {
-            System.err.println ("Non-existent interval name"+name+"  supplied to AdjacencyList getOverlappingtervals");
+            System.err.println ("Non-existent interval name "+name+" supplied to AdjacencyList getOverlappingtervals");
             return null;
         }
         //  supply a copy of a list of overlapping intervals for safety, maintains encapsulation
