@@ -139,13 +139,15 @@ class AdjacencyListTest {
      */
     @Test
     void RemoveIntervalsFromGraphTest() {
-        // ** first** remove single-overlapping G and check its gone from F, leaving A, B, C, D, E and H unchanged
+        // ** first ** check that a non-existent interval name causes a null return
+        assertTrue(adjList.removeIntervalFromGraphTest("G")==null);
+        // ** second ** remove single-overlapping G and check its gone from F, leaving A, B, C, D, E and H unchanged
         // ** each step ** also check the number of intervals in the graph and the graph consistency
         Interval toRemove = adjList.getIntervalFromName("G");
         assertTrue(adjList.removeIntervalFromGraphTest("G")==toRemove);
-        // ** second** remove twice-overlapping interval E and check its gone from C and D, leaving A, B, F and H unchanged
-        // ** third** remove thrice overlapping A and check its gone from B, C and D, leaving F and H unchanged
-        // **fourth** remove non-overlapping H leaving B, C, D and F unchanged
+        // ** third ** remove twice-overlapping interval E and check its gone from C and D, leaving A, B, F and H unchanged
+        // ** fourth ** remove thrice overlapping A and check its gone from B, C and D, leaving F and H unchanged
+        // ** fifth ** remove non-overlapping H leaving B, C, D and F unchanged
 
     }
 

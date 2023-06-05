@@ -92,6 +92,7 @@ public class AdjacencyList {
      * @return null if null name was not in the graph, otherwise the removed interval
      */
     public Interval removeIntervalFromGraphTest(String intervalToRemoveName) {
+
         Interval retInterval = null;
 
         return retInterval;
