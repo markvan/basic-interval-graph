@@ -183,9 +183,41 @@ class AdjacencyListTest {
         }
 
         // ** fourth ** remove thrice overlapping A and check its gone from B, C and D, leaving F and H unchanged
-        // ** fifth ** remove non-overlapping H leaving B, C, D and F unchanged
+        toRemove = adjList.getIntervalFromName("A");
+        oldCount = adjList.size();
+        assertTrue(adjList.removeIntervalFromGraphTest("A")==toRemove);
+        assertTrue (adjList.size()==(oldCount-1));
+        assertTrue(adjList.isConsistent());
+        //belt and braces, but want to see isConsistent and overlap appropriate working together to check isConsistent
+        try {
+            // first arg is the interval being considered, remaining args are the only overlapping intervals
+            overlapAppropriate("B", "C");
+            overlapAppropriate("C", "B", "D", "F");
+            overlapAppropriate("D", "C", "F");
+            overlapAppropriate("F", "C", "D");
+            overlapAppropriate("H" );
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
 
+    // ** fifth ** remove non-overlapping H leaving B, C, D and F unchanged
+    toRemove = adjList.getIntervalFromName("H");
+    oldCount = adjList.size();
+    assertTrue(adjList.removeIntervalFromGraphTest("H")==toRemove);
+    assertTrue (adjList.size()==(oldCount-1));
+    assertTrue(adjList.isConsistent());
+    //belt and braces, but want to see isConsistent and overlap appropriate working together to check isConsistent
+        try {
+        // first arg is the interval being considered, remaining args are the only overlapping intervals
+        overlapAppropriate("B", "C");
+        overlapAppropriate("C", "B", "D", "F");
+        overlapAppropriate("D", "C", "F");
+        overlapAppropriate("F", "C", "D");
+    } catch (Exception e) {
+        throw new RuntimeException(e);
     }
+}
+
 
     /**
      * difficult to form an inconsistent list so this was manually checked
