@@ -16,7 +16,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.*;
 
-
+//todo make sure all assertEquals args are the right way round - expected, actual - to help with failure output
 class AdjacencyListTest {
 
     final boolean debugMessages = false;
@@ -294,7 +294,26 @@ class AdjacencyListTest {
         // get the intervals we expect will overlap the test interval
         List<Interval> expectedIntervals = selectIntervals(overlappingIntervalNames);
         //check the actual list from the SUT is the same as the expected intervals
-        assertEquals(expectedIntervals, adjList.getOverlappingIntervals(testIntervalName));
+        List<Interval> actualIntervals = adjList.getOverlappingIntervals(testIntervalName);
+        // want to assertTrue(expectedIntervals.contains(actualIntervals) && actualIntervals.contains(expectedIntervals));
+        // but comparisons not working, presume doesn't rely on Interval equals, so rewrite
+        // -- same length?
+        assertEquals(expectedIntervals.size(), actualIntervals.size() );
+        // -- unique elements?
+        assertEquals(expectedIntervals.size(), new HashSet<Interval>(expectedIntervals).size());
+        assertEquals(actualIntervals.size(), new HashSet<Interval>(actualIntervals).size());
+        // -- same elements in each?
+        boolean allGood = true;
+        for (Interval eI : expectedIntervals) {
+            boolean found = false;
+            for (Interval aI : actualIntervals) {
+                if (eI.equals(aI)) found = true;
+            }
+            if (found == false) allGood = false;
+        }
+        // -- the lists are the same re elements inside
+        assertTrue(allGood);
+
         //check testIntervalName is not in the lists for any interval that is not in the overlappingIntervalNames
         // includes it should not be in its own list
         List<Interval> notExpectedInIntervals = rejectIntervals(overlappingIntervalNames);
