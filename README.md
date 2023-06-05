@@ -4,10 +4,26 @@
 
 The exercise: Given a set of named of intervals construct an interval graph that may be interrogated thus:
 
-1. For the entire graph, yield the set of intervals 
-2. For a given interval, yield all overlapping intervals
-3. Bonus: For a given time period, yield the intervals in that time period, not implemented
+1. For the entire graph, yield the set of intervals. 
+2. For a given interval, yield all overlapping intervals.
+3. Check the graph's consistency (always consistent).
 
+Plus, to build a graph and change it dynamically
+
+4. Add an interval.
+5. Delete an interval.
+
+Bonus, still to do
+
+6. For a given point in time return all the 
+overlapping intervals 
+7. Build a RESTful interface to add intervals
+8. Build a RESTful interface to obtain the current graph
+OR get the changes since the last sampling of the graph
+   (obviously there needs to a way to get an intial graph
+   if changes are the way to go).
+9. Introduce the notion of time and remove intervals 
+that have have completed before that time (tick the time appropriately)
 
 ### Input
 
@@ -30,34 +46,37 @@ and this needs to be generalised in some way not yet designed.
 
 ### Approaches to implementing an interval graph
 
-An undirected graph may be implemented in several ways.
+An undirected graph may be implemented in at least three common ways.
 
-In core we might build an adjacency matrix 
-(space inefficient for large graphs) or an adjacency list
-(time inefficient) or we might 
-reimplement part of a graph database  
+Either we might 
+
+1. Build an adjacency matrix 
+(space inefficient for large graphs).
+2. Build an adjacency list
+(time inefficient).
+3. Reimplement part of a graph database  
 like Node4j. 
 
-Or we might even run, say, [Google Guava](https://github.com/google/guava/wiki/GraphsExplained)
-or [Apache Commons Gigraph](https://giraph.apache.org/) but, for the latter,
-the weekend is too short to 
+Or we might run, say,
+
+4. [Google Guava](https://github.com/google/guava/wiki/GraphsExplained).
+5. [Apache Commons Gigraph](https://giraph.apache.org/) but, for now time is too short to 
 [set up a Hadoop instance on a virtual machine and then run Gigraph on it](https://giraph.apache.org/quick_start.html)
 &mdash; next thing I'm deep in setting up Maven builds, which is doable, but is a slog  when things go wrong.
 
-The easiest would be to [Baeldung's ajacency list code](https://www.baeldung.com/java-graphs), but what's the fun in that?
+The easiest would be to re-use [Baeldung's adjacency list code](https://www.baeldung.com/java-graphs), but what's the fun in that?
 
-I could just say, I'm dealing with tiny examples and I'll implement an adjacency table in memory. But because of this desired functionality
-```
-2. For a given interval (node), yield all overlapping intervals (connected nodes)
-```
-its going to be almost trival to supply this via an adjacency list approach, so I'll implement that but without looking 
-at Baeldung, just to make this a harder exercise.
+So instead I'll go with implementing my own adjacency list code in this repo.
 
 
 ### Compilation
 
-Requires Hamcrest jar to be installed on the class path in order
+Requires:
+
+1. Hamcrest jar to be installed on the class path in order
 to compile (at least some of) the tests.
+2. Apache lang utils to be installed on the class path in order
+   to use its hashing functionality in the Interval class, so intervals can be used in a HashMap.
 
 ### Notes on 'finishing for now' aka current state of play
 
@@ -70,11 +89,14 @@ Notes:
 1. used the [wikipedia example](https://en.wikipedia.org/wiki/Interval_graph) augmented with non-intersecting interval 'H'.
 2. Output is good, see below.
 3. Some todos, grep for them in the code. 
-4. Could do with reading code and tests, and refactoring the tests to make two files DRYer.
-5. Not that pleased that my test package is under directory 'src' and not under directory 'test'
-6. Fairly pleased after not touching Java for five years, by the time I finished I was not needing to look up syntax for the code I was writing.
+4. Not that pleased that my test package is under directory 'src' and not under directory 'test'.
+5. Reasonably well tested except for a couple of utility functions.
+6. Most JavaDoc is in place
+7. Fairly pleased after not touching Java for years.
 
-### Output
+### Output from running main
+
+Format has changed a bit
 
 ```
 Parsing the interval data
