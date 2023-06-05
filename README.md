@@ -69,14 +69,17 @@ The easiest would be to re-use [Baeldung's adjacency list code](https://www.bael
 So instead I'll go with implementing my own adjacency list code in this repo.
 
 
-### Compilation
+### Compilation/Build
 
-Requires:
+Using IntelliJ IDEA in the simplest way, this requires
 
-1. Hamcrest jar to be installed on the class path in order
-to compile (at least some of) the tests.
-2. Apache lang utils to be installed on the class path in order
+1. [Hamcrest jar](https://search.maven.org/artifact/org.hamcrest/hamcrest) to be installed on the class path in order
+t  o compile (at least some of) the tests.
+2. [Apache Commons Lang](https://commons.apache.org/proper/commons-lang/download_lang.cgi) 
+   to be installed on the class path in order
    to use its hashing functionality in the Interval class, so intervals can be used in a HashMap.
+
+Obviously you could use Gradle or Maven to do the build.
 
 ### Notes on 'finishing for now' aka current state of play
 
