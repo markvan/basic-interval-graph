@@ -19,6 +19,10 @@ public class InputParser {
         fileName = fn;
     }
 
+    /**
+     * Parse an input file and generate a list of intervals suitable to use in instantiating an interval graph in the form of an AdjacencyList
+     * @return a list of intervals
+     */
     //todo solid input checking
     //todo ensure no duplicate interval names
     //todo sort sensitivity to blank input lines, eg on end of file

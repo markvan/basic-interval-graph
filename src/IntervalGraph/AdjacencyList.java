@@ -15,12 +15,14 @@ public class AdjacencyList {
     private HashMap<Interval, List<Interval>> adjacencyLists = new HashMap<>();
 
     /**
-     * constructor for an empty graph, works because of instance variable assignment
+     * constructor for an empty graph
      */
-    public AdjacencyList () { }
+    public AdjacencyList () {
+        //  works because of instance variable assignment
+    }
 
     /**
-     * constructor for an AdjacencyList
+     * constructor initialising from a list of intervals as, e.g., is returned from the input parser in this package
      * @param intervalList  a list of intervals forming the interval graph, may be null
      */
     public AdjacencyList(List<Interval> intervalList) {
@@ -44,7 +46,7 @@ public class AdjacencyList {
     }
 
      /**
-     * add an interval to the graph, includes a check that the name is not already used in the graph
+     * Add an interval to the graph, includes a check that the interval name is not already used in the graph
      * @param newInterval interval to add
      */
     public void addInterval(Interval newInterval) {
@@ -62,7 +64,7 @@ public class AdjacencyList {
     }
 
     /**
-     * add an interval to the graph after check that the name is not already used in the graph
+     * Add an interval to the graph after check that the name is not already used in the graph in addInterval
      * @param newInterval  interval to add
      */
     private void safelyAddInterval(Interval newInterval) {
@@ -91,7 +93,7 @@ public class AdjacencyList {
      * @param intervalToRemoveName - name of the interval to remove
      * @return null if null name was not in the graph, otherwise the removed interval
      */
-    public Interval removeIntervalFromGraphTest(String intervalToRemoveName) {
+    public Interval removeInterval(String intervalToRemoveName) {
         // check interval is in graph, return if not
         if(getIntervalFromName(intervalToRemoveName)==null) return null;
 
@@ -111,7 +113,7 @@ public class AdjacencyList {
     }
 
     /**
-     * helper method for removeIntervalFromGraphTest
+     * Helper method for removeIntervalFromGraph -- removes an interval from a list of overlapping intervals
      * @param from the interval with the overlap list that is to have toRemove removed from it
      * @param toRemove the interval to remove from the overlap list
      * @return returns toRemove if successful removal, null otherwise
@@ -128,7 +130,7 @@ public class AdjacencyList {
     }
 
     /**
-     * helper method for removeIntervalFromGraphTest
+     * Helper method for removeIntervalFromGraph -- removes a key-value pair from the adjacencyLists
      * @param toRemove interval to remove from the adjacency graph
      */
     private void removeIntervalFromAdjacencyList(Interval toRemove) {
@@ -142,10 +144,8 @@ public class AdjacencyList {
     }
 
     /**
-     * return the names of the intervals in the interval graph<br>
-     * in lexicographic order
-     *
-     * @return a Set&lt;String&gt; set of interval names, sorted
+     * Return the names of the intervals in the interval graph representation in lexicographic order
+     * @return a sorted set of interval names
      */
     public TreeSet<String> getIntervalNames() {
         TreeSet<String> retSet = new TreeSet<>();
@@ -154,9 +154,8 @@ public class AdjacencyList {
     }
 
     /**
-     * return the intervals in the interval graph
-     *
-     * @return a Set&lt;Interval&gt; set of interval names, sorted
+     * Return the intervals in the interval graph
+     * @return a sorted set of intervals
      */
     public Set<Interval> getIntervals() {
         TreeSet<Interval> retSet = new TreeSet<>();
@@ -166,7 +165,7 @@ public class AdjacencyList {
     }
 
     /**
-     * getOverlappingtervals returns a list of intervals that overlap the named interval
+     * Returns a list of intervals that overlap the named interval
      * @param  name of the interval whose overlapping intervals are wanted - String
      * @return list of Intervals that overlap the named interval
      */
@@ -198,7 +197,7 @@ public class AdjacencyList {
         return retOverlappingIntervalsList;
     }
 
-    /** intervalsOverlap returns a bool to indicate if two intervals overlap
+    /** Returns a bool to indicate if two intervals overlap
      * @param interval1 first interval
      * @param interval2 second interval
      * @return true or false depending on if overlap is found
@@ -209,6 +208,7 @@ public class AdjacencyList {
     }
 
     /**
+     * Get the interval with a given name
      * @param intervalName - name of the interval wanted
      * @return the interval with the name, null if there is no interval with that name
      */
@@ -223,6 +223,7 @@ public class AdjacencyList {
     }
 
     /**
+     * Return the number of intervals in the interval graph representation
      * @return return the number of intervals in the graph
      */
     public int size() {
@@ -230,6 +231,7 @@ public class AdjacencyList {
     }
 
     /**
+     * Helper method to check if a name does not exist in the AdjacencyList
      * @param intervalForNameCheck the interval whose name must be checked for uniqueness in the graph
      * @return true if the name is not in the graph, false otherwise
      */
@@ -238,6 +240,7 @@ public class AdjacencyList {
     }
 
     /**
+     * Helper method to check if a name exists in the AdjacencyList
      * @param intervalForNameCheck the interval whose name must be checked for duplication in the graph
      * @return true if the name is duplicated in the graph, false otherwise
      */
@@ -259,6 +262,7 @@ public class AdjacencyList {
     }
 
     /**
+     * Check if the graph represented by an AdjacencyList is internally consistent
      * @return boolean to show if the graph is consistent or not
      */
     public boolean isConsistent () {

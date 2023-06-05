@@ -140,13 +140,13 @@ class AdjacencyListTest {
     @Test
     void RemoveIntervalsFromGraphTest() {
         // ** first ** check that a non-existent interval name causes a null return
-        assertTrue(adjList.removeIntervalFromGraphTest("no exist name")==null);
+        assertTrue(adjList.removeInterval("no exist name")==null);
 
         // ** second ** remove single-overlapping G and check its gone from F, leaving A, B, C, D, E and H unchanged
         // ** each step ** also check the number of intervals in the graph and the graph consistency
         Interval toRemove = adjList.getIntervalFromName("G");
         int oldCount = adjList.size();
-        assertTrue(adjList.removeIntervalFromGraphTest("G")==toRemove);
+        assertTrue(adjList.removeInterval("G")==toRemove);
         assertTrue (adjList.size()==(oldCount-1));
         assertTrue(adjList.isConsistent());
         //belt and braces, but want to see isConsistent and overlap appropriate working together to check isConsistent
@@ -166,7 +166,7 @@ class AdjacencyListTest {
         // ** third ** remove twice-overlapping interval E and check its gone from C and D, leaving A, B, F and H unchanged
         toRemove = adjList.getIntervalFromName("E");
         oldCount = adjList.size();
-        assertTrue(adjList.removeIntervalFromGraphTest("E")==toRemove);
+        assertTrue(adjList.removeInterval("E")==toRemove);
         assertTrue (adjList.size()==(oldCount-1));
         assertTrue(adjList.isConsistent());
         //belt and braces, but want to see isConsistent and overlap appropriate working together to check isConsistent
@@ -185,7 +185,7 @@ class AdjacencyListTest {
         // ** fourth ** remove thrice overlapping A and check its gone from B, C and D, leaving F and H unchanged
         toRemove = adjList.getIntervalFromName("A");
         oldCount = adjList.size();
-        assertTrue(adjList.removeIntervalFromGraphTest("A")==toRemove);
+        assertTrue(adjList.removeInterval("A")==toRemove);
         assertTrue (adjList.size()==(oldCount-1));
         assertTrue(adjList.isConsistent());
         //belt and braces, but want to see isConsistent and overlap appropriate working together to check isConsistent
@@ -203,7 +203,7 @@ class AdjacencyListTest {
     // ** fifth ** remove non-overlapping H leaving B, C, D and F unchanged
     toRemove = adjList.getIntervalFromName("H");
     oldCount = adjList.size();
-    assertTrue(adjList.removeIntervalFromGraphTest("H")==toRemove);
+    assertTrue(adjList.removeInterval("H")==toRemove);
     assertTrue (adjList.size()==(oldCount-1));
     assertTrue(adjList.isConsistent());
     //belt and braces, but want to see isConsistent and overlap appropriate working together to check isConsistent
