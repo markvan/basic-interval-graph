@@ -140,7 +140,7 @@ class AdjacencyListTest {
     @Test
     void RemoveIntervalsFromGraphTest() {
         // ** first ** check that a non-existent interval name causes a null return
-        assertTrue(adjList.removeIntervalFromGraphTest("G")==null);
+        assertTrue(adjList.removeIntervalFromGraphTest("no exist name")==null);
         // ** second ** remove single-overlapping G and check its gone from F, leaving A, B, C, D, E and H unchanged
         // ** each step ** also check the number of intervals in the graph and the graph consistency
         Interval toRemove = adjList.getIntervalFromName("G");
