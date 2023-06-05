@@ -266,28 +266,40 @@ public class AdjacencyList {
      * @return boolean to show if the graph is consistent or not
      */
     public boolean isConsistent () {
-        for (Interval interval : adjacencyLists.keySet()) {
-            if (consistencyCheckMessages) System.out.println("Processing keyset interval " + interval.toString() + "\n" );
-            List<Interval> inList = adjacencyLists.get(interval);
-            List<Interval> outList = new ArrayList<>();
+        // for each interval in the graph
+        for (Interval intervalBeingConsidered : adjacencyLists.keySet()) {
+            if (consistencyCheckMessages) System.out.println("Processing keyset interval " + intervalBeingConsidered.toString() + "\n" );
+            // set overlappingIntervals to be all the intervals that we have recorded as overlapping interval
+            List<Interval> overlappingIntervals = adjacencyLists.get(intervalBeingConsidered);
+            // and set nonOverlappingIntervals to ba all those intervals not in overlappingIntervals
+            List<Interval> nonOverlappingIntervals = new ArrayList<>();
             for (Interval i : getIntervals()) {
-                if (!inList.contains(i))
-                    outList.add(i);
+                if (!overlappingIntervals.contains(i))
+                    nonOverlappingIntervals.add(i);
             }
-            // outlist will contain interval, this is good,
-            // interval should not have interval on its overlapping interval list
-            for (Interval i : inList) {
-                if (consistencyCheckMessages) System.out.println("   processing inList interval " + i.toString() );
-                if (!intervalsOverlap(i, interval)) return false;
-                if (!adjacencyLists.get(i).contains(interval)) return false;
-            }
-            for (Interval i : outList) {
-                if (consistencyCheckMessages) System.out.println("   processing outList interval " + i.toString() );
+            // note that the nonOverlappingIntervals set up above will contain intervalBeingConsidered, this is good,
 
-                if (i != interval && intervalsOverlap(i, interval)) return false;
-                if (adjacencyLists.get(i).contains(interval)) return false;
+            // now for each overlapping interval
+            for (Interval i : overlappingIntervals) {
+                if (consistencyCheckMessages) System.out.println("   processing overlappingIntervals interval " + i.toString() );
+                // the overlapping interval must overlap intervalBeingConsidered
+                if ( ! intervalsOverlap(i, intervalBeingConsidered)) return false;
+                // the overlapping interval must have intervalBeingConsidered in
+                //   the overlapping intervals own list of overlapping intervals
+                if ( ! adjacencyLists.get(i).contains(intervalBeingConsidered)) return false;
             }
-            if (consistencyCheckMessages) System.out.println("\n End keyset interval " + interval.toString() + "\n" );
+            // and now for each non-overlapping interval
+            for (Interval i : nonOverlappingIntervals) {
+                if (consistencyCheckMessages) System.out.println("   processing nonOverlappingIntervals interval " + i.toString() );
+                // the non-overlapping interval must overlap intervalBeingConsidered
+                //    but we rule out the case where they are the same interval
+                //         because they will overlap and erroneously return false
+                if ( (i != intervalBeingConsidered) && intervalsOverlap(i, intervalBeingConsidered) ) return false;
+                //  the non-overlapping interval must not have intervalBeingConsidered in
+                //   the non-overlapping intervals own list of overlapping intervals
+                if (adjacencyLists.get(i).contains(intervalBeingConsidered)) return false;
+            }
+            if (consistencyCheckMessages) System.out.println("\n End keyset interval " + intervalBeingConsidered.toString() + "\n" );
         }
         return true;
     }

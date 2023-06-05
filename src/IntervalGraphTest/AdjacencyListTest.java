@@ -3,7 +3,6 @@ package IntervalGraphTest;
 import IntervalGraph.AdjacencyList;
 import IntervalGraph.InputParser;
 import IntervalGraph.Interval;
-
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
@@ -11,9 +10,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
 
-import static IntervalGraph.AdjacencyList.*;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
+import static IntervalGraph.AdjacencyList.intervalsOverlap;
 import static org.junit.jupiter.api.Assertions.*;
 
 //todo make sure all assertEquals args are the right way round - expected, actual - to help with failure output
@@ -217,7 +214,6 @@ class AdjacencyListTest {
         throw new RuntimeException(e);
     }
 }
-
 
     /**
      * difficult to form an inconsistent list so this was manually checked
