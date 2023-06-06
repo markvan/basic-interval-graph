@@ -5,6 +5,12 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 // class for interval objects
 
+/**
+ * Implementation of intervals using a final class with constant data members to
+ * ease list and set manipulation in interval graph code. Will need to be replaced with
+ * a more data-rich class in time and/or add defensive programming ot the graph implementation
+ * to enable Interval to be non-final and/or have non-constant data members.
+ */
 public final class Interval implements Comparable<Interval> {
     final private String name;
     final private int start;

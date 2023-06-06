@@ -4,7 +4,7 @@ import java.util.*;
 
 /** The AdjacencyList class implements an interval graph<br><br>
  *
- *In a more sophisticated approach where one could choose between implementations
+ * In a more sophisticated approach where one could choose between implementations
  * IntervalGraph might be an (abstract) interface with AdjacencyList as one of the implementations
 */
 

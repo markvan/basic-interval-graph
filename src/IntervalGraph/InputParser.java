@@ -10,6 +10,9 @@ import static java.lang.Integer.parseInt;
 
 // input file parser, returns a list of intervals
 
+/**
+ * Parses an input file to generate a suitable adjacency list to pass to one of the AdjacencyList constructors
+ */
 public class InputParser {
 
     final boolean debugMessages = false;

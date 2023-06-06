@@ -13,6 +13,9 @@ import java.util.*;
 import static IntervalGraph.AdjacencyList.intervalsOverlap;
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Test suite for the AdjacencyList class
+ */
 //todo make sure all assertEquals args are the right way round - expected, actual - to help with failure output
 class AdjacencyListTest {
 
@@ -24,9 +27,10 @@ class AdjacencyListTest {
     static AdjacencyList adjList;
 
     /**
-     * Setup: create a file containing the input the tests need<br>
-     * this is the WIKIPEDIA EXAMPLE    https://en.wikipedia.org/wiki/Interval_graph <br>
-     * with an added interval 'H' that is intersects no other interval
+     * On setup -- create a file containing the input the tests need<br>
+     * The data is the WIKIPEDIA EXAMPLE    https://en.wikipedia.org/wiki/Interval_graph <br>
+     * with an added interval 'H' that is intersects no other interval<br>
+     * This is also shown diagrammatically in the repo README
      */
     @org.junit.jupiter.api.BeforeEach
     void setUp() {
@@ -57,7 +61,7 @@ class AdjacencyListTest {
     }
 
     /**
-     * just delete the test input file on teardown
+     * Delete the test input file on teardown
      */
     @org.junit.jupiter.api.AfterEach
     void tearDown() {
@@ -68,7 +72,7 @@ class AdjacencyListTest {
     }
 
     /**
-     * test we can determine if an interval name is in the graph or not
+     * Test we can determine if an interval name is in the graph or not
      */
     @Test
     void intervalNameIsNotDuplicateTest() {
@@ -80,7 +84,7 @@ class AdjacencyListTest {
 
 
     /**
-     *  test that one can retrieve all interval (aka node) names from interval graph / adjacency list
+     *  Test that one can retrieve all interval (aka node) names from interval graph / adjacency list
      *  AFTER SETUP
      */
     @Test
@@ -102,7 +106,7 @@ class AdjacencyListTest {
     }
 
     /**
-     * check can make first steps in populating a graph
+     * Check can make first steps in populating an empty graph by adding three intervals to that empty graph
      */
     @Test
     void addIntervalsToEmptyGraphTest() {
@@ -132,7 +136,7 @@ class AdjacencyListTest {
     }
 
     /**
-     * test removal of intervals from the graph
+     * Test removal of intervals from the graph
      */
     @Test
     void RemoveIntervalsFromGraphTest() {
@@ -216,16 +220,20 @@ class AdjacencyListTest {
 }
 
     /**
-     * difficult to form an inconsistent list so this was manually checked
-     * set consistencyCheckMessages in AdjaencyList code to true to get the output to manually check
+     * Tests to see if a graph is internally consistent as reveled by the isConsistent method in AdjacencyList--
+     * that has not been tested to show failure with an inconsistent list,
+     * but it has been manually examined in depth usi9ng a debugger, and elsewhere in the tests
+     * consistent testing has been paired with use of overlapAppropriate; the use of these together
+     * adds to feelings of assurance that isConsistent works appropriately.
      */
+    //todo use the debugger or programatically introduce an inconsistency in an AdjacencyList via a one-off method later commented out
     @Test
     void isConsistentTest() {
         assertTrue(adjList.isConsistent());
     }
 
     /**
-     * test we can add an overlapping interval and a non-overlapping interval to a non-empty graph
+     * Test we can add an overlapping interval and a non-overlapping interval to a non-empty graph
      * //todo make DRY
      */
     @Test
@@ -270,8 +278,8 @@ class AdjacencyListTest {
     //todo test getIntervalFromName, getIntervals
 
     /**
-     * Helper method
-     * @param intervalNames variable number of Strings denoting interval names
+     * Helper method called by overlapAppropriate
+     * @param intervalNames -- variable number of Strings denoting interval names
      * @return an ArrayList of intervals named by the strings, in the parameter ordering
      */
     private ArrayList<Interval> selectIntervals (String... intervalNames) {
@@ -291,7 +299,7 @@ class AdjacencyListTest {
     }
 
     /**
-     * Helper method
+     * Helper method called by overlapAppropriate
      * @param intervalNames variable number of Strings denoting interval names
      * @return an ArrayList of intervals NOT named by the strings, in the parameter ordering
      */
@@ -309,7 +317,7 @@ class AdjacencyListTest {
     }
 
     /**
-     * This is a helper method for other tests
+     * Helper method for tests, called by many tests
      * //todo think that this may be redundant now that we have a tested isConistent method in AdjacencyList
      * //todo evaluate style as per comment above the method
      */
@@ -354,7 +362,7 @@ class AdjacencyListTest {
 
 
     /**
-     * test that all intervals in a graph overlap appropriately
+     * Test that all intervals in a graph overlap appropriately
      */
     //
     @Test
@@ -376,7 +384,7 @@ class AdjacencyListTest {
     }
 
     /**
-     * test that a new interval non-overlapping interval can be added successfully
+     * Test that a new interval non-overlapping interval can be added successfully
      * //todo can I get rid of the exception that I guard against here?
      */
     @Test
@@ -403,7 +411,7 @@ class AdjacencyListTest {
 
 
     /**
-     * test that a new interval non-overlapping interval can be added successfully
+     * Test that a new interval non-overlapping interval can be added successfully
      */
         @Test
         void addOverlappingIntervalTest () {
@@ -430,7 +438,7 @@ class AdjacencyListTest {
         }
 
     /**
-     * test that an interval can be added to an empty graph
+     * Test that an interval can be added to an empty graph
      */
         @Test
         void addIntervalsStartingWithEmptyGraphTest () {
@@ -444,7 +452,7 @@ class AdjacencyListTest {
         }
 
     /**
-     * test that the intervals overlap method works correctly
+     * Test that the intervals overlap method works correctly
      */
     @Test
     void intervalsOverlapTest() {
